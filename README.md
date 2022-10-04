@@ -1,5 +1,10 @@
 # WebLab_git
 
+## pull dependence
+``` bash
+npm install
+```
+
 ## build
 ```bash
 npm run build
