@@ -453,20 +453,6 @@ ul.insi li {
     -ms-border-radius: 50%;
     -moz-border-radius: 50%;
 }
-.list-left:hover.list-left span {
-    color: #fff;
-   background: rgba(255, 255, 255, 0.31);
-	border-radius:0%;
-    -webkit-border-radius:0%;
-    -o-border-radius:0%;
-    -ms-border-radius:0%;
-    -moz-border-radius:0%;
-	transition:0.5s all;
-	-webkit-transition:0.5s all;
-	-moz-transition:0.5s all;
-	-o-transition:0.5s all;
-	-ms-transition:0.5s all;
-}
 .list-left h4 {
     color: #ffffff;
     font-size: 30px;

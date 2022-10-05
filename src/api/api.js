@@ -1,6 +1,9 @@
 import config from "./config";
 import axios from "axios";
 import store from "../store";
+
+import { ElMessage } from "element-plus";
+
 const ax = axios.create({ baseURL: config.base_url });
 const axi = axios.create({ baseURL: config.base_ihs_url });
 
@@ -26,21 +29,42 @@ export class Publications {
       headers: isPublic
         ? {}
         : {
-            Authorization: `Bearer ${store.state.token}`,
-          },
+          Authorization: `Bearer ${store.state.token}`,
+        },
     });
   };
 
-  static getAllPublications = (page, limit) => {
-    return ax.get(`/papers`, {
-      params: { page: page, limit: limit },
-      headers: {
-        Authorization: `Bearer ${store.state.token}`,
-      },
-    });
+  static getAllPublications = async (page, limit, callback) => {
+    try {
+      let resp = await ax.get(`/papers`, {
+        params: { page: page, limit: limit },
+        headers: {
+          Authorization: `Bearer ${store.state.token}`,
+        },
+      });
+      return resp.data
+    }
+    catch (err) {
+      if (err.response.status === 401) {
+        ElMessage.error("请重新登录");
+        store.commit("clearToken");
+        if (callback) callback()
+      } else ElMessage.error("网络错误");
+    }
   };
-  static getAllPublicationsCount = () => {
-    return ax.get(`/papers/count`);
+
+  static getAllPublicationsCount = async () => {
+    try {
+      let resp = await ax.get(`/papers/count`);
+      return resp.data
+    }
+    catch {
+      if (err.response.status === 401) {
+        ElMessage.error("请重新登录");
+        store.commit("clearToken");
+        if (callback) callback()
+      } else ElMessage.error("网络错误");
+    }
   };
 
   static deletePublication = (id) => {

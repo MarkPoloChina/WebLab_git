@@ -1,11 +1,11 @@
 // skl-blog/src/router/index.js
 import { createRouter, createWebHistory } from "vue-router";
-import Login from "../components/Login.vue";
-import Home from "../components/Home.vue";
-import Resource from "../components/Resource.vue";
-import Publications from "../components/Publication.vue";
-import Upload from "../components/upload.vue";
-import Index from "../components/Index.vue";
+import Login from "../view/Login.vue";
+import Home from "../view/Home.vue";
+import Resource from "../view/Resource.vue";
+import Publications from "../view/Publication.vue";
+import Upload from "../view/upload.vue";
+import Index from "../view/Index.vue";
 const routes = [
   {
     path: "/",

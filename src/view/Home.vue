@@ -59,40 +59,19 @@
     <div class="container">
       <div class="agile_right">
         <div
-          class="col-md-4 list-left text-center wow fadeInLeft animated animated animated"
-          data-wow-delay=".5s"
-          style="
-            visibility: visible;
-            animation-delay: 0.5s;
-            animation-name: fadeInLeft;
-          "
-        >
+          class="col-md-4 list-left text-center">
           <span class="glyphicon" aria-hidden="true">1</span>
           <h4>Graph neural networks</h4>
           <p></p>
         </div>
         <div
-          class="col-md-4 list-left text-center wow fadeInUp animated animated animated"
-          data-wow-delay=".5s"
-          style="
-            visibility: visible;
-            animation-delay: 0.5s;
-            animation-name: fadeInUp;
-          "
-        >
+          class="col-md-4 list-left text-center">
           <span class="glyphicon" aria-hidden="true">2</span>
           <h4>Active learning & Multi-view learning</h4>
           <p></p>
         </div>
         <div
-          class="col-md-4 list-left text-center wow fadeInRight animated animated animated"
-          data-wow-delay=".5s"
-          style="
-            visibility: visible;
-            animation-delay: 0.5s;
-            animation-name: fadeInRight;
-          "
-        >
+          class="col-md-4 list-left text-center">
           <span class="glyphicon" aria-hidden="true">3</span>
           <h4>Computer vision</h4>
           <p></p>

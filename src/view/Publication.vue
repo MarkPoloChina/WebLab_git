@@ -132,11 +132,7 @@ const getPrivateData = (page = 1) => {
         });
       })
       .catch((err) => {
-        if (err.response.status === 401) {
-          ElMessage.error("请重新登录");
-          store.commit("clearToken");
-          router.push("/");
-        } else ElMessage.error("网络错误");
+        
       });
 };
 </script>
