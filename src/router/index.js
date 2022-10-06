@@ -4,7 +4,8 @@ import Login from "../view/Login.vue";
 import Home from "../view/Home.vue";
 import Resource from "../view/Resource.vue";
 import Publications from "../view/Publication.vue";
-import Upload from "../view/upload.vue";
+import Upload from "../view/Upload.vue";
+import Schedule from "../view/Schedule.vue";
 import Index from "../view/Index.vue";
 const routes = [
   {
@@ -28,9 +29,14 @@ const routes = [
         component: Resource,
       },
       {
-        path: "/upload",
+        path: "upload",
         name: "Upload",
         component: Upload,
+      },
+      {
+        path: "schedule",
+        name: "Schedule",
+        component: Schedule,
       },
     ],
   },
