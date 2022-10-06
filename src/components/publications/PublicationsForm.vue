@@ -174,28 +174,25 @@ const handleUpload = (obj) => {
   }
   visble.value = true;
 };
-const newPublication = () => {
-  Publications.newPublication({
+const newPublication = async () => {
+  let data = {
     Title: uploadForm.Title,
     Abstract: uploadForm.Abstract,
     Authors: uploadForm.Authors,
     Thumbnail: ihs.image,
     Link: ihs.pdf == "" ? uploadForm.Link : ihs.pdf,
     State: uploadForm.State,
-  })
-    .then((res) => {
-      ElMessage({
-        message: "上传成功",
-        type: "success",
-      });
-      visble.value = false;
-      emit("update");
-    })
-    .catch((err) => {
-      ElMessage.error("网络错误");
+  };
+  if (await Publications.newPublication(data)) {
+    ElMessage({
+      message: "上传成功",
+      type: "success",
     });
+    visble.value = false;
+    emit("update");
+  }
 };
-const updatePublication = () => {
+const updatePublication = async () => {
   let list = [];
   Object.keys(uploadForm).forEach((key) => {
     if (
@@ -223,18 +220,15 @@ const updatePublication = () => {
       path: "/Thumbnail",
       value: ihs.image,
     });
-  Publications.updatePublication(uploadForm.Id, list)
-    .then((res) => {
-      ElMessage({
-        message: "修改成功",
-        type: "success",
-      });
-      visble.value = false;
-      emit("update");
-    })
-    .catch((err) => {
-      ElMessage.error("网络错误");
+  Publications.updatePublication(uploadForm.Id, list);
+  if (await Publications.updatePublication(uploadForm.Id, list)) {
+    ElMessage({
+      message: "修改成功",
+      type: "success",
     });
+    visble.value = false;
+    emit("update");
+  }
 };
 defineExpose({
   handleUpload,

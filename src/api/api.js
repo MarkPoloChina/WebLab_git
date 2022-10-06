@@ -1,3 +1,8 @@
+/* 对于全部的API方法，遵循以下的原则：
+ * 传入：对于parma，传递parma的解构；对于data，直接传递data/file对象。对于file，特别地，最后一个参数是progress的代理对象。否则，最后一个参数是callback。
+ * 返回：get请求异步返回resp.data。当抛出异常时，返回null，并替换默认方法，执行callback。
+ * 使用async/await异步形态。
+ */
 import config from "./config";
 import axios from "axios";
 import store from "../store";
@@ -14,24 +19,48 @@ export class Token {
 }
 
 export class Publications {
-  static newPublication = (form) => {
-    return ax.postForm("/papers", form, {
-      headers: {
-        Authorization: `Bearer ${store.state.token}`,
-      },
-    });
-  };
-
-  static getPublications = (page, limit, isPublic) => {
-    return ax.get(`/papers/${isPublic ? "public" : "private"}`, {
-      params: { page: page, limit: limit },
-
-      headers: isPublic
-        ? {}
-        : {
+  static newPublication = async (form, callback) => {
+    try {
+      await ax.postForm("/papers", form, {
+        headers: {
           Authorization: `Bearer ${store.state.token}`,
         },
-    });
+      });
+      return true;
+    } catch (err) {
+      if (callback) callback(err);
+      else ElMessage.error("网络错误");
+      return false;
+    }
+  };
+
+  static getPublicPublications = async (page, limit, callback) => {
+    try {
+      let resp = await ax.get("/papers/public", {
+        params: { page: page, limit: limit },
+      });
+      return resp.data;
+    } catch (err) {
+      if (callback) callback(err);
+      else ElMessage.error("网络错误");
+      return null;
+    }
+  };
+
+  static getPrivatePublications = async (page, limit, callback) => {
+    try {
+      let resp = await ax.get("/papers/private", {
+        params: { page: page, limit: limit },
+        headers: {
+          Authorization: `Bearer ${store.state.token}`,
+        },
+      });
+      return resp.data;
+    } catch (err) {
+      if (callback) callback(err);
+      else ElMessage.error("网络错误");
+      return null;
+    }
   };
 
   static getAllPublications = async (page, limit, callback) => {
@@ -42,45 +71,53 @@ export class Publications {
           Authorization: `Bearer ${store.state.token}`,
         },
       });
-      return resp.data
-    }
-    catch (err) {
-      if (err.response.status === 401) {
-        ElMessage.error("请重新登录");
-        store.commit("clearToken");
-        if (callback) callback()
-      } else ElMessage.error("网络错误");
+      return resp.data;
+    } catch (err) {
+      if (callback) callback(err);
+      else ElMessage.error("网络错误");
+      return null;
     }
   };
 
-  static getAllPublicationsCount = async () => {
+  static getAllPublicationsCount = async (callback) => {
     try {
       let resp = await ax.get(`/papers/count`);
-      return resp.data
-    }
-    catch {
-      if (err.response.status === 401) {
-        ElMessage.error("请重新登录");
-        store.commit("clearToken");
-        if (callback) callback()
-      } else ElMessage.error("网络错误");
+      return resp.data;
+    } catch {
+      if (callback) callback(err);
+      else ElMessage.error("网络错误");
+      return null;
     }
   };
 
-  static deletePublication = (id) => {
-    return ax.delete(`/papers/${id}`, {
-      headers: {
-        Authorization: `Bearer ${store.state.token}`,
-      },
-    });
+  static deletePublication = async (id, callback) => {
+    try {
+      await ax.delete(`/papers/${id}`, {
+        headers: {
+          Authorization: `Bearer ${store.state.token}`,
+        },
+      });
+      return true;
+    } catch (err) {
+      if (callback) callback(err);
+      else ElMessage.error("网络错误");
+      return false;
+    }
   };
 
-  static updatePublication = (id, list) => {
-    return ax.patch(`/papers/${id}`, list, {
-      headers: {
-        Authorization: `Bearer ${store.state.token}`,
-      },
-    });
+  static updatePublication = async (id, list, callback) => {
+    try {
+      await ax.patch(`/papers/${id}`, list, {
+        headers: {
+          Authorization: `Bearer ${store.state.token}`,
+        },
+      });
+      return true;
+    } catch (err) {
+      if (callback) callback(err);
+      else ElMessage.error("网络错误");
+      return false;
+    }
   };
 }
 
@@ -99,7 +136,9 @@ export class IHS {
         Authorization: `Bearer ${store.state.tokenIHS}`,
       },
       onUploadProgress: (progressEvent) => {
-        progress.value = (progressEvent.loaded / progressEvent.total) * 100;
+        progress.value = Math.floor(
+          (progressEvent.loaded / progressEvent.total) * 100
+        );
       },
     });
   };

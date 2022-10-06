@@ -116,24 +116,31 @@ onMounted(() => {
   getPrivateData();
   ready.value = true;
 });
-const getData = (page = 1) => {
-  Publications.getPublications(page, config.pageLimit, true).then((res) => {
-    res.data.forEach((item) => {
+const getData = async (page = 1) => {
+  let data = await Publications.getPublicPublications(page, config.pageLimit);
+  if (data)
+    data.forEach((item) => {
       tableData.push(item);
     });
-  });
 };
-const getPrivateData = (page = 1) => {
-  if (store.state.token)
-    Publications.getPublications(page, config.pageLimit, false)
-      .then((res) => {
-        res.data.forEach((item) => {
-          tableDataPrivate.push(item);
-        });
-      })
-      .catch((err) => {
-        
+const getPrivateData = async (page = 1) => {
+  if (store.state.token) {
+    let data = await Publications.getPrivatePublications(
+      page,
+      config.pageLimit,
+      (err) => {
+        if (err.response.status === 401) {
+          ElMessage.error("请重新登录");
+          store.commit("clearToken");
+          router.push("/login");
+        } else ElMessage.error("网络错误");
+      }
+    );
+    if (data)
+      data.forEach((item) => {
+        tableDataPrivate.push(item);
       });
+  }
 };
 </script>
 

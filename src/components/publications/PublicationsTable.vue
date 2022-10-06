@@ -53,11 +53,16 @@ import { onMounted, reactive, ref, watch } from "vue";
 import config from "../../api/config";
 import { Publications } from "../../api/api";
 import { ElMessage } from "element-plus";
+import { useRouter } from "vue-router";
+import { useStore } from "vuex";
 
+const store = useStore();
+const router = useRouter();
 const emit = defineEmits(["edit"]);
 const tableData = reactive([]);
 const currentPage = ref(1);
 const totalPage = ref(config.pageLimit);
+
 watch(currentPage, () => {
   getPublications();
 });
@@ -67,33 +72,39 @@ onMounted(() => {
 const handleEdit = (obj) => {
   emit("edit", obj);
 };
-const handleDelete = (id) => {
-  Publications.deletePublication(id)
-    .then((res) => {
-      if (res.status === 204)
-        ElMessage({
-          message: "删除成功",
-          type: "success",
-        });
-      currentPage.value = config.pageLimit;
-      getPublications();
-    })
-    .catch((err) => {
-      ElMessage.error("网络错误");
+const handleDelete = async (id) => {
+  if (await Publications.deletePublication(id)) {
+    ElMessage({
+      message: "删除成功",
+      type: "success",
     });
+    currentPage.value = config.pageLimit;
+    getPublications();
+  }
 };
 const getPublications = async () => {
   getPage();
   tableData.length = 0;
-  (
-    await Publications.getAllPublications(currentPage.value, config.pageLimit)
-  ).forEach((publication) => {
-    tableData.push(publication);
-  });
+  let data = await Publications.getAllPublications(
+    currentPage.value,
+    config.pageLimit,
+    (err) => {
+      if (err.response.status === 401) {
+        ElMessage.error("请重新登录");
+        store.commit("clearToken");
+        router.push("/login");
+      } else ElMessage.error("网络错误");
+    }
+  );
+  if (data)
+    data.forEach((publication) => {
+      tableData.push(publication);
+    });
 };
 
 const getPage = async () => {
-  totalPage.value = (await Publications.getAllPublicationsCount()).Count;
+  let data = await Publications.getAllPublicationsCount();
+  if (data) totalPage.value = data.Count;
 };
 defineExpose({ getPublications });
 </script>
