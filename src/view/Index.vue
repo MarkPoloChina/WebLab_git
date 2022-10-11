@@ -92,6 +92,10 @@ const menus = computed(() => {
       name: "Resource",
       url: "/resource",
     },
+    {
+      name: "Schedule",
+      url: "/schedule",
+    },
   ];
   if (token)
     defalut.push({

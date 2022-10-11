@@ -58,4 +58,11 @@ watch(currentPage, () => {});
   font-size: 35px;
   font-weight: bold;
 }
+.pagination {
+  width: 100%;
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 </style>

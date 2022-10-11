@@ -204,3 +204,6 @@ export class Resource {
     return ax.get(`/resources/count`);
   };
 }
+export class Schedule {
+  static getSchedule = () => {};
+}
