@@ -29,7 +29,7 @@ const routes = [
         component: Resource,
       },
       {
-        path: "upload",
+        path: "admin",
         name: "Upload",
         component: Upload,
       },

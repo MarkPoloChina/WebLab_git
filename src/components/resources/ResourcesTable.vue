@@ -89,7 +89,7 @@ const handleDeleteResource = (id) => {
           message: "删除成功",
           type: "success",
         });
-      currentResourcePage.value = config.pageLimit;
+      currentResourcePage.value = 1;
       getResources();
     })
     .catch((err) => {

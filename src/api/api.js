@@ -81,7 +81,11 @@ export class Publications {
 
   static getAllPublicationsCount = async (callback) => {
     try {
-      let resp = await ax.get(`/papers/count`);
+      let resp = await ax.get(`/papers/count`, {
+        headers: {
+          Authorization: `Bearer ${store.state.token}`,
+        },
+      });
       return resp.data;
     } catch {
       if (callback) callback(err);
@@ -205,5 +209,158 @@ export class Resource {
   };
 }
 export class Schedule {
-  static getSchedule = () => {};
+  static newSchedule = async (form, callback) => {
+    try {
+      await ax.postForm("/todos", form, {
+        headers: {
+          Authorization: `Bearer ${store.state.token}`,
+        },
+      });
+      return true;
+    } catch (err) {
+      if (callback) callback(err);
+      else ElMessage.error("网络错误");
+      return false;
+    }
+  };
+
+  static getAllSchedules = async (page, limit, callback) => {
+    try {
+      let resp = await ax.get(`/todos`, {
+        params: { page: page, limit: limit },
+        headers: {
+          Authorization: `Bearer ${store.state.token}`,
+        },
+      });
+      return resp.data;
+    } catch (err) {
+      if (callback) callback(err);
+      else ElMessage.error("网络错误");
+      return null;
+    }
+  };
+
+  static getAllSchedulesCount = async (callback) => {
+    try {
+      let resp = await ax.get(`/todos/count`, {
+        headers: {
+          Authorization: `Bearer ${store.state.token}`,
+        },
+      });
+      return resp.data;
+    } catch {
+      if (callback) callback(err);
+      else ElMessage.error("网络错误");
+      return null;
+    }
+  };
+
+  static getSelfSchedules = async (page, limit, callback) => {
+    try {
+      let resp = await ax.get(`/todos/self`, {
+        params: { page: page, limit: limit },
+        headers: {
+          Authorization: `Bearer ${store.state.token}`,
+        },
+      });
+      return resp.data;
+    } catch (err) {
+      if (callback) callback(err);
+      else ElMessage.error("网络错误");
+      return null;
+    }
+  };
+
+  static getSelfSchedulesCount = async (callback) => {
+    try {
+      let resp = await ax.get(`/todos/self/count`, {
+        headers: {
+          Authorization: `Bearer ${store.state.token}`,
+        },
+      });
+      return resp.data;
+    } catch {
+      if (callback) callback(err);
+      else ElMessage.error("网络错误");
+      return null;
+    }
+  };
+
+  static deleteSchedule = async (id, callback) => {
+    try {
+      await ax.delete(`/todos/${id}`, {
+        headers: {
+          Authorization: `Bearer ${store.state.token}`,
+        },
+      });
+      return true;
+    } catch (err) {
+      if (callback) callback(err);
+      else ElMessage.error("网络错误");
+      return false;
+    }
+  };
+
+  static updateSchedule = async (id, list, callback) => {
+    try {
+      await ax.patch(`/todos/${id}`, list, {
+        headers: {
+          Authorization: `Bearer ${store.state.token}`,
+        },
+      });
+      return true;
+    } catch (err) {
+      if (callback) callback(err);
+      else ElMessage.error("网络错误");
+      return false;
+    }
+  };
+}
+
+export class User {
+  static newUser = async (form, callback) => {
+    try {
+      await ax.postForm("/users", form, {
+        headers: {
+          Authorization: `Bearer ${store.state.token}`,
+        },
+      });
+      return true;
+    } catch (err) {
+      if (callback) callback(err);
+      else ElMessage.error("网络错误");
+      return false;
+    }
+  };
+
+  static getAllUsers = async (page, limit, callback) => {
+    try {
+      let resp = await ax.get(`/users`, {
+        params: { page: page, limit: limit },
+        headers: {
+          Authorization: `Bearer ${store.state.token}`,
+        },
+      });
+      return resp.data;
+    } catch (err) {
+      if (callback) callback(err);
+      else ElMessage.error("网络错误");
+      return null;
+    }
+  };
+
+  static getAllUsersCount = async (callback) => {
+    try {
+      let resp = await ax.get(`/users/count`, {
+        headers: {
+          Authorization: `Bearer ${store.state.token}`,
+        },
+      });
+      return resp.data;
+    } catch {
+      if (callback) callback(err);
+      else ElMessage.error("网络错误");
+      return null;
+    }
+  };
 }

@@ -1,31 +1,25 @@
 <template>
   <div class="container">
-    <div class="title">Upload</div>
+    <div class="title-block">
+      <div class="title">Admin</div>
+      <el-button
+        class="btn"
+        @click="handleSwitch"
+        color="#24629c"
+        plain
+        v-if="activeName != 'config'"
+        >新增</el-button
+      >
+    </div>
     <div class="content">
       <el-tabs v-model="activeName" class="tabs">
         <el-tab-pane label="Publications" name="publications">
-          <div class="btn-top">
-            <div>
-              <el-button @click="handleUploadPublications()">新增</el-button>
-            </div>
-            <div>
-              <el-button @click="logout">退出</el-button>
-            </div>
-          </div>
           <PublicationsTable
             @edit="handleUploadPublications"
             ref="publicationsTable"
           ></PublicationsTable>
         </el-tab-pane>
         <el-tab-pane label="Resource" name="resource" lazy>
-          <div class="btn-top">
-            <div>
-              <el-button @click="handleUploadResources()">新增</el-button>
-            </div>
-            <div>
-              <el-button @click="logout">退出</el-button>
-            </div>
-          </div>
           <ResourcesTable
             @edit="handleUploadResources"
             ref="resourcesTable"
@@ -33,6 +27,9 @@
         </el-tab-pane>
         <el-tab-pane label="Config" name="config" lazy>
           <ConfigsForm></ConfigsForm>
+        </el-tab-pane>
+        <el-tab-pane label="Users" name="user" lazy>
+          <UsersTable ref="usersTable"></UsersTable>
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -45,6 +42,7 @@
     ref="resourcesForm"
     @update="resourcesTable.getResources()"
   ></ResourcesForm>
+  <UsersForm ref="usersForm"></UsersForm>
 </template>
 <script setup>
 import { useRoute, useRouter } from "vue-router";
@@ -55,6 +53,8 @@ import ResourcesForm from "../components/resources/ResourcesForm.vue";
 import ResourcesTable from "../components/resources/ResourcesTable.vue";
 import ConfigsForm from "../components/configs/ConfigsForm.vue";
 import PublicationsForm from "../components/publications/PublicationsForm.vue";
+import UsersTable from "../components/users/UsersTable.vue";
+import UsersForm from "../components/users/UsersForm.vue";
 
 // 获取路由实例
 const router = useRouter();
@@ -65,6 +65,8 @@ const resourcesForm = ref(null);
 const resourcesTable = ref(null);
 const publicationsForm = ref(null);
 const publicationsTable = ref(null);
+const usersForm = ref(null);
+const usersTable = ref(null);
 
 const logout = () => {
   store.commit("clearToken");
@@ -76,6 +78,22 @@ const handleUploadPublications = (obj = null) => {
 const handleUploadResources = (obj = null) => {
   resourcesForm.value.handleUpload(obj);
 };
+const handleUploadUser = (obj = null) => {
+  usersForm.value.handleUpload(obj);
+};
+const handleSwitch = () => {
+  switch (activeName.value) {
+    case "publications":
+      handleUploadPublications();
+      break;
+    case "resource":
+      handleUploadResources();
+      break;
+    case "user":
+      handleUploadUser();
+      break;
+  }
+};
 </script>
 
 <style scoped>
@@ -84,8 +102,13 @@ const handleUploadResources = (obj = null) => {
   padding-right: 15px;
   padding-left: 15px;
 }
-.container .title {
-  padding: 30px 0 20px 0;
+.container .title-block {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.container .title-block .title {
+  padding: 20px 0 20px 0;
   color: #24629c;
   font-size: 35px;
   font-weight: bold;

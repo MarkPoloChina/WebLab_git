@@ -18,17 +18,34 @@
         <div class="ban-top">
           <div class="top_nav_left">
             <div class="navbar-collapse menu--shylock collapse">
-              <ul class="menu__list">
-                <li
-                  style="margin: 0 30px 0 0"
-                  :class="menu.class"
-                  v-for="(menu, index) in menus"
-                  :key="index"
-                >
-                  <a class="menu__link" @click="to(menu.url)">{{
-                    menu.name
-                  }}</a>
-                </li>
+              <ul
+                class="menu__list"
+                style="display: flex; justify-content: space-between"
+              >
+                <div style="display: flex">
+                  <li
+                    style="margin: 0 30px 0 0"
+                    :class="menu.class"
+                    v-for="(menu, index) in menus"
+                    :key="index"
+                  >
+                    <a class="menu__link" @click="to(menu.url)">{{
+                      menu.name
+                    }}</a>
+                  </li>
+                </div>
+                <div style="display: flex">
+                  <li
+                    style="margin: 0 30px 0 0"
+                    :class="menu.class"
+                    v-for="(menu, index) in menusRight"
+                    :key="index"
+                  >
+                    <a class="menu__link" @click="to(menu.url)">{{
+                      menu.name
+                    }}</a>
+                  </li>
+                </div>
               </ul>
             </div>
           </div>
@@ -48,7 +65,7 @@
         <div class="col-md-4 agileinfo_footer_gridl">
           <h3>加入我们</h3>
           <p>实验室的联系方式：{{ contact.value.phone }}</p>
-          <p>实验室address：{{ contact.value.address }}</p>
+          <p>实验室address: {{ contact.value.address }}</p>
           <p>实验室Postcode: {{ contact.value.postcode }}</p>
           <p>实验室Email:{{ contact.value.email }}</p>
         </div>
@@ -79,7 +96,8 @@ const router = useRouter();
 const menus = computed(() => {
   let currentTab = route.name;
   let token = store.state.token;
-  let defalut = [
+  let isAdmin = store.state.isAdmin;
+  let defaults = [
     {
       name: "Home",
       url: "/",
@@ -92,31 +110,53 @@ const menus = computed(() => {
       name: "Resource",
       url: "/resource",
     },
-    {
+  ];
+
+  if (token)
+    defaults.push({
       name: "Schedule",
       url: "/schedule",
-    },
-  ];
-  if (token)
-    defalut.push({
-      name: "Upload",
-      url: "/upload",
-      hide: true,
     });
-  else
-    defalut.push({
-      name: "Login",
-      url: "/login",
+  if (isAdmin)
+    defaults.push({
+      name: "Admin",
+      url: "/admin",
     });
-  defalut.forEach((item) => {
+
+  defaults.forEach((item) => {
     if (item.name == currentTab)
       item.class = "menu__item active menu__item--current";
     else item.class = "menu__item";
   });
-  return defalut;
+  return defaults;
+});
+const menusRight = computed(() => {
+  let currentTab = route.name;
+  let token = store.state.token;
+  let defaults = [];
+  if (token)
+    defaults.push({
+      name: "Logout",
+      url: "/logout",
+    });
+  else
+    defaults.push({
+      name: "Login",
+      url: "/login",
+    });
+  defaults.forEach((item) => {
+    if (item.name == currentTab)
+      item.class = "menu__item active menu__item--current";
+    else item.class = "menu__item";
+  });
+  return defaults;
 });
 const to = (url) => {
-  router.push(url);
+  if (url != "/logout") router.push(url);
+  else {
+    store.commit("clearToken");
+    router.push("/");
+  }
 };
 const contact = reactive({
   value: {

@@ -78,7 +78,7 @@ const handleDelete = async (id) => {
       message: "删除成功",
       type: "success",
     });
-    currentPage.value = config.pageLimit;
+    currentPage.value = 1;
     getPublications();
   }
 };

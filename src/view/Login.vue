@@ -73,6 +73,7 @@ function login() {
 
         // 判断登录权限，成功登录则则更改为success，用于publication中是否能够查看未上传论文
         store.commit("updateToken", res.data.Token);
+        // store.commit("updateIsAdmin", res.data.User.IsAdmin);
         IHS.getToken()
           .then((res) => {
             if (res.status == 201) {

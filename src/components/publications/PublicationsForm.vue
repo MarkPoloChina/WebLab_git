@@ -220,7 +220,6 @@ const updatePublication = async () => {
       path: "/Thumbnail",
       value: ihs.image,
     });
-  Publications.updatePublication(uploadForm.Id, list);
   if (await Publications.updatePublication(uploadForm.Id, list)) {
     ElMessage({
       message: "修改成功",
