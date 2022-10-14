@@ -96,7 +96,7 @@ const router = useRouter();
 const menus = computed(() => {
   let currentTab = route.name;
   let token = store.state.token;
-  let isAdmin = store.state.isAdmin;
+  let isAdmin = store.state.userObj&&store.state.userObj.IsAdmin;
   let defaults = [
     {
       name: "Home",

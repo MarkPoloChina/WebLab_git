@@ -88,20 +88,20 @@ function login() {
               });
             }
           })
-          .catch((error) => {
-            if (error.response.status === 400) {
-              ElMessage.error("用户名或密码错误");
-              loginForm.password = "";
-            } else ElMessage.error("网络错误");
-          });
+          // .catch((error) => {
+          //   if (error.response.status === 400) {
+          //     ElMessage.error("用户名或密码错误");
+          //     loginForm.password = "";
+          //   } else ElMessage.error("网络错误");
+          // });
       }
     })
-    .catch((error) => {
-      if (error.response.status === 400) {
-        ElMessage.error("用户名或密码错误");
-        loginForm.password = "";
-      } else ElMessage.error("网络错误");
-    });
+    // .catch((error) => {
+    //   if (error.response.status === 400) {
+    //     ElMessage.error("用户名或密码错误");
+    //     loginForm.password = "";
+    //   } else ElMessage.error("网络错误");
+    // });
 }
 
 function tohome() {

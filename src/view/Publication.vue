@@ -94,9 +94,11 @@ import { getCurrentInstance, onMounted, reactive, ref } from "vue";
 import { Publications } from "../api/api";
 import config from "../api/config";
 import { ElMessage } from "element-plus";
+import { useRouter } from "vue-router";
 
 const store = useStore();
 const ready = ref(false);
+const router = useRouter()
 
 const tableData = reactive([]);
 const tableDataPrivate = reactive([]);

@@ -12,9 +12,16 @@
     </div>
     <div class="content">
       <div class="pub-list" id="pub-list">
+        <div class="search-block">
+          <el-input
+            v-model="userSearch"
+            placeholder="搜索用户"
+            :prefix-icon="Search"
+          />
+        </div>
         <el-table :data="tableData" stripe class="pub-item">
           <el-table-column
-            v-if="store.state.isAdmin"
+            v-if="store.state.userObj && store.state.userObj.IsAdmin"
             prop="UserId"
             label="用户"
             width="180"
@@ -49,7 +56,7 @@
             fixed="right"
             label="Operations"
             width="180"
-            v-if="!store.state.isAdmin"
+            v-if="!(store.state.userObj && store.state.userObj.IsAdmin)"
           >
             <template #default="scope">
               <el-popconfirm
@@ -94,6 +101,7 @@
   </div>
 </template>
 <script setup>
+import { Search } from "@element-plus/icons-vue";
 import { useStore } from "vuex";
 import { onMounted, reactive, ref, watch } from "vue";
 import config from "../api/config";
@@ -106,6 +114,7 @@ const totalPage = ref(1);
 const currentPage = ref(1);
 const store = useStore();
 const scheduleForm = ref(null);
+const userSearch = ref("");
 onMounted(() => {
   getSchedule();
 });
@@ -116,7 +125,7 @@ const getSchedule = async () => {
   getSchedulePage();
   tableData.length = 0;
   let data = null;
-  if (store.state.isAdmin) {
+  if (store.state.userObj && store.state.userObj.IsAdmin) {
     data = await Schedule.getAllSchedules(
       currentPage.value,
       config.pageLimit,
@@ -148,7 +157,8 @@ const getSchedule = async () => {
 };
 const getSchedulePage = async () => {
   let data = null;
-  if (store.state.isAdmin) data = await Schedule.getAllSchedulesCount();
+  if (store.state.userObj && store.state.userObj.IsAdmin)
+    data = await Schedule.getAllSchedulesCount();
   else if (store.state.token) data = await Schedule.getSelfSchedulesCount();
   if (data) totalPage.value = data.Count;
 };
@@ -210,5 +220,8 @@ const handleDelete = async (id) => {
   margin-right: auto;
   width: 100%;
   min-height: 500px;
+}
+.pub-list .search-block {
+  margin-bottom: 10px;
 }
 </style>

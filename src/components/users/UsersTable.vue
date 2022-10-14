@@ -1,13 +1,8 @@
 <template>
-  <el-table
-    :data="tableResourceData"
-    style="width: 100%; min-height: 400px"
-    stripe
-  >
+  <el-table :data="tableData" style="width: 100%; min-height: 400px" stripe>
     <el-table-column prop="Id" label="Id" width="60" />
-    <el-table-column prop="Username" label="Title" width="180" />
-    <el-table-column prop="Description" label="Description" />
-    <el-table-column prop="Link" label="Link">
+    <el-table-column prop="Username" label="用户名" width="180" />
+    <el-table-column prop="IsAdmin" label="是否管理员">
       <template #default="scope">
         <el-tag type="success" v-if="scope.row.IsAdmin">管理员</el-tag>
         <el-tag type="info" v-else>普通用户</el-tag>
