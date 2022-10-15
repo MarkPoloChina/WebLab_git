@@ -83,20 +83,23 @@
         Science, Fuzhou University.
       </div>
     </div>
+    <ChangeUserForm ref="changeUserForm"></ChangeUserForm>
   </div>
 </template>
 <script setup>
-import { computed, reactive, onBeforeMount, onMounted } from "vue";
+import { computed, reactive, onBeforeMount, onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useStore } from "vuex";
 import { Config } from "../api/api";
+import ChangeUserForm from "../components/users/ChangeUserForm.vue";
 const store = useStore();
 const route = useRoute();
 const router = useRouter();
+const changeUserForm = ref();
 const menus = computed(() => {
   let currentTab = route.name;
   let token = store.state.token;
-  let isAdmin = store.state.userObj&&store.state.userObj.IsAdmin;
+  let isAdmin = store.state.userObj && store.state.userObj.IsAdmin;
   let defaults = [
     {
       name: "Home",
@@ -136,8 +139,8 @@ const menusRight = computed(() => {
   let defaults = [];
   if (token)
     defaults.push({
-      name: "Logout",
-      url: "/logout",
+      name: `${store.state.userObj.Username}`,
+      url: "/user",
     });
   else
     defaults.push({
@@ -152,10 +155,9 @@ const menusRight = computed(() => {
   return defaults;
 });
 const to = (url) => {
-  if (url != "/logout") router.push(url);
+  if (url != "/user") router.push(url);
   else {
-    store.commit("clearToken");
-    router.push("/");
+    changeUserForm.value.handleUser();
   }
 };
 const contact = reactive({

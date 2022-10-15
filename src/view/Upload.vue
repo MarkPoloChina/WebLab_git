@@ -68,10 +68,6 @@ const publicationsTable = ref(null);
 const usersForm = ref(null);
 const usersTable = ref(null);
 
-const logout = () => {
-  store.commit("clearToken");
-  router.push("/");
-};
 const handleUploadPublications = (obj = null) => {
   publicationsForm.value.handleUpload(obj);
 };

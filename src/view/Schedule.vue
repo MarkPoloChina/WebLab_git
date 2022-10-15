@@ -38,12 +38,12 @@
           ></el-table-column>
           <el-table-column prop="From" label="开始日期">
             <template #default="scope">
-              {{ new Date(scope.row.From).toLocaleString() }}
+              {{ new Date(scope.row.From).toLocaleString().substring(0, 10) }}
             </template>
           </el-table-column>
           <el-table-column prop="To" label="截止日期">
             <template #default="scope">
-              {{ new Date(scope.row.To).toLocaleString() }}
+              {{ new Date(scope.row.To).toLocaleString().substring(0, 10) }}
             </template>
           </el-table-column>
           <el-table-column prop="Finished" label="状态">

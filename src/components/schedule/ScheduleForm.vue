@@ -7,17 +7,13 @@
       <el-form-item label="描述">
         <el-input v-model="uploadForm.Description" type="text" clearable />
       </el-form-item>
-      <el-form-item label="开始时间">
+      <el-form-item label="起止日期">
         <el-date-picker
-          v-model="uploadForm.From"
-          type="date"
-          placeholder="Pick a day"
-        />
-      </el-form-item>
-      <el-form-item label="截止时间">
-        <el-date-picker
-          v-model="uploadForm.To"
-          type="date"
+          type="daterange"
+          range-separator="To"
+          start-placeholder="Start date"
+          end-placeholder="End date"
+          v-model="DateRange"
           placeholder="Pick a day"
         />
       </el-form-item>
@@ -35,7 +31,7 @@
 </template>
 <script setup>
 import { ElMessage } from "element-plus";
-import { reactive, ref } from "vue";
+import { reactive, ref, computed } from "vue";
 import { Schedule, User } from "../../api/api";
 
 const visble = ref(false);
@@ -49,7 +45,16 @@ const uploadForm = reactive({
   To: "",
   Finished: false,
 });
-
+const DateRange = computed({
+  get: () => [
+    uploadForm.From == "" ? "" : new Date(uploadForm.From),
+    uploadForm.To == "" ? "" : new Date(uploadForm.To),
+  ],
+  set: (val) => {
+    if (val[0]) uploadForm.From = new Date(val[0]).toISOString();
+    if (val[1]) uploadForm.To = new Date(val[1]).toISOString();
+  },
+});
 const upload = () => {
   if (!uploadForm.Id) newSchedule();
   else updateUser();

@@ -73,7 +73,6 @@ function login() {
 
         // 判断登录权限，成功登录则则更改为success，用于publication中是否能够查看未上传论文
         store.commit("updateToken", res.data.Token);
-        // store.commit("updateIsAdmin", res.data.User.IsAdmin);
         IHS.getToken()
           .then((res) => {
             if (res.status == 201) {
@@ -88,20 +87,20 @@ function login() {
               });
             }
           })
-          // .catch((error) => {
-          //   if (error.response.status === 400) {
-          //     ElMessage.error("用户名或密码错误");
-          //     loginForm.password = "";
-          //   } else ElMessage.error("网络错误");
-          // });
+          .catch((error) => {
+            if (error.response.status === 400) {
+              ElMessage.error("用户名或密码错误");
+              loginForm.password = "";
+            } else ElMessage.error("网络错误");
+          });
       }
     })
-    // .catch((error) => {
-    //   if (error.response.status === 400) {
-    //     ElMessage.error("用户名或密码错误");
-    //     loginForm.password = "";
-    //   } else ElMessage.error("网络错误");
-    // });
+    .catch((error) => {
+      if (error.response.status === 400) {
+        ElMessage.error("用户名或密码错误");
+        loginForm.password = "";
+      } else ElMessage.error("网络错误");
+    });
 }
 
 function tohome() {

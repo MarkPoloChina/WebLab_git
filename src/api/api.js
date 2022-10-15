@@ -363,4 +363,34 @@ export class User {
       return null;
     }
   };
+
+  static deleteUser = async (id, callback) => {
+    try {
+      await ax.delete(`/users/${id}`, {
+        headers: {
+          Authorization: `Bearer ${store.state.token}`,
+        },
+      });
+      return true;
+    } catch (err) {
+      if (callback) callback(err);
+      else ElMessage.error("网络错误");
+      return false;
+    }
+  };
+
+  static updateUser = async (id, list, callback) => {
+    try {
+      await ax.patch(`/users/${id}`, list, {
+        headers: {
+          Authorization: `Bearer ${store.state.token}`,
+        },
+      });
+      return true;
+    } catch (err) {
+      if (callback) callback(err);
+      else ElMessage.error("网络错误");
+      return false;
+    }
+  };
 }
