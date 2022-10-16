@@ -12,18 +12,35 @@
     </div>
     <div class="content">
       <div class="pub-list" id="pub-list">
-        <div class="search-block">
-          <el-input
+        <div
+          class="search-block"
+          v-if="store.state.userObj && store.state.userObj.IsAdmin"
+        >
+          <el-select
             v-model="userSearch"
-            placeholder="搜索用户"
-            :prefix-icon="Search"
-          />
+            filterable
+            placeholder="选择学生"
+            style="width: 100%"
+          >
+            <el-option
+              v-for="item in users"
+              :key="item.Id"
+              :label="item.Username + ' ' + item.Fullname"
+              :value="item.Id"
+            />
+          </el-select>
         </div>
         <el-table :data="tableData" stripe class="pub-item">
           <el-table-column
             v-if="store.state.userObj && store.state.userObj.IsAdmin"
-            prop="UserId"
-            label="用户"
+            prop="Username"
+            label="用户名"
+            width="180"
+          ></el-table-column>
+          <el-table-column
+            v-if="store.state.userObj && store.state.userObj.IsAdmin"
+            prop="Fullname"
+            label="姓名"
             width="180"
           ></el-table-column>
           <el-table-column
@@ -64,7 +81,7 @@
                 @confirm="handleDelete(scope.row.Id)"
               >
                 <template #reference>
-                  <el-button link type="primary" size="small">删除</el-button>
+                  <el-button link type="danger" size="small">删除</el-button>
                 </template>
               </el-popconfirm>
               <el-button
@@ -79,9 +96,14 @@
                 @confirm="handleFin(scope.row.Id, scope.row.Finished)"
               >
                 <template #reference>
-                  <el-button link type="primary" size="small">{{
-                    scope.row.Finished ? "标记未完成" : "标记完成"
-                  }}</el-button>
+                  <el-button
+                    link
+                    :type="scope.row.Finished ? 'info' : 'success'"
+                    size="small"
+                    >{{
+                      scope.row.Finished ? "标记未完成" : "标记完成"
+                    }}</el-button
+                  >
                 </template>
               </el-popconfirm>
             </template>
@@ -94,6 +116,7 @@
           :total="totalPage"
           :page-size="config.pageLimit"
           v-model:current-page="currentPage"
+          @current-change="getSchedule()"
         />
       </div>
     </div>
@@ -101,42 +124,66 @@
   </div>
 </template>
 <script setup>
-import { Search } from "@element-plus/icons-vue";
 import { useStore } from "vuex";
 import { onMounted, reactive, ref, watch } from "vue";
 import config from "../api/config";
-import { Schedule } from "../api/api";
+import { Schedule, User } from "../api/api";
 import ScheduleForm from "../components/schedule/ScheduleForm.vue";
 import { ElMessage } from "element-plus";
+import { useRouter } from "vue-router";
 
 const tableData = reactive([]);
 const totalPage = ref(1);
 const currentPage = ref(1);
 const store = useStore();
+const router = useRouter();
 const scheduleForm = ref(null);
 const userSearch = ref("");
+const users = reactive([]);
 onMounted(() => {
   getSchedule();
+  getUsersWithoutLimit();
 });
-watch(currentPage, () => {
-  getSchedule();
+watch(userSearch, (val) => {
+  if (store.state.userObj && store.state.userObj.IsAdmin) {
+    currentPage.value = 1;
+    if (val == "" || !val) {
+      getSchedule();
+    } else {
+      getSchedule(val);
+    }
+  }
 });
-const getSchedule = async () => {
-  getSchedulePage();
+const getSchedule = async (filterId) => {
+  getSchedulePage(filterId);
   tableData.length = 0;
   let data = null;
   if (store.state.userObj && store.state.userObj.IsAdmin) {
-    data = await Schedule.getAllSchedules(
-      currentPage.value,
-      config.pageLimit,
-      (err) => {
-        if (err.response.status === 401) {
-          ElMessage.error("请重新登录");
-          store.commit("clearToken");
-          router.push("/login");
-        } else ElMessage.error("网络错误");
-      }
-    );
+    if (!filterId)
+      data = await Schedule.getAllSchedules(
+        currentPage.value,
+        config.pageLimit,
+        (err) => {
+          if (err.response.status === 401) {
+            ElMessage.error("请重新登录");
+            store.commit("clearToken");
+            router.push("/login");
+          } else ElMessage.error("网络错误");
+        }
+      );
+    else
+      data = await Schedule.getSchedulesByFilter(
+        currentPage.value,
+        config.pageLimit,
+        filterId,
+        (err) => {
+          if (err.response.status === 401) {
+            ElMessage.error("请重新登录");
+            store.commit("clearToken");
+            router.push("/login");
+          } else ElMessage.error("网络错误");
+        }
+      );
   } else if (store.state.token) {
     data = await Schedule.getSelfSchedules(
       currentPage.value,
@@ -155,10 +202,11 @@ const getSchedule = async () => {
       tableData.push(user);
     });
 };
-const getSchedulePage = async () => {
+const getSchedulePage = async (filterId) => {
   let data = null;
   if (store.state.userObj && store.state.userObj.IsAdmin)
-    data = await Schedule.getAllSchedulesCount();
+    if (!filterId) data = await Schedule.getAllSchedulesCount();
+    else data = await Schedule.getSchedulesByFilterCount(filterId);
   else if (store.state.token) data = await Schedule.getSelfSchedulesCount();
   if (data) totalPage.value = data.Count;
 };
@@ -191,6 +239,19 @@ const handleDelete = async (id) => {
     currentPage.value = 1;
     getSchedule();
   }
+};
+const getUsersWithoutLimit = async () => {
+  let data = await User.getAllUsers(1, 10000, (err) => {
+    if (err.response.status === 401) {
+      ElMessage.error("请重新登录");
+      store.commit("clearToken");
+      router.push("/login");
+    } else ElMessage.error("网络错误");
+  });
+  if (data)
+    data.forEach((user) => {
+      users.push(user);
+    });
 };
 </script>
 <style scoped>

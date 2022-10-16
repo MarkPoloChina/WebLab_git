@@ -2,12 +2,23 @@
   <el-dialog v-model="visble" title="Uploader Form" width="70%">
     <el-form :model="uploadForm" label-width="100px" style="width: 100%">
       <el-form-item label="用户名">
-        <el-input v-model="uploadForm.Username" type="text" clearable />
+        <el-input
+          v-model="uploadForm.Username"
+          type="text"
+          clearable
+          :disabled="uploadForm.Id != null"
+        />
       </el-form-item>
-      <el-form-item label="密码">
+      <el-form-item label="姓名" v-if="!uploadForm.resetPw || !uploadForm.Id">
+        <el-input v-model="uploadForm.Fullname" type="text" clearable />
+      </el-form-item>
+      <el-form-item label="密码" v-if="uploadForm.resetPw || !uploadForm.Id">
         <el-input v-model="uploadForm.Password" type="password" clearable />
       </el-form-item>
-      <el-form-item label="管理员权限">
+      <el-form-item
+        label="管理员权限"
+        v-if="!uploadForm.resetPw || !uploadForm.Id"
+      >
         <el-switch v-model="uploadForm.IsAdmin" />
       </el-form-item>
     </el-form>
@@ -30,8 +41,10 @@ const emit = defineEmits(["update"]);
 const uploadForm = reactive({
   Id: null,
   Username: "",
+  Fullname: "",
   Password: "",
   IsAdmin: false,
+  resetPw: false,
 });
 
 const upload = () => {
@@ -42,6 +55,7 @@ const clearUserUploadForm = () => {
   uploadForm.Id = null;
   uploadForm.Username = "";
   uploadForm.Password = "";
+  uploadForm.Fullname = "";
   uploadForm.IsAdmin = false;
 };
 const newUser = async () => {
@@ -50,6 +64,7 @@ const newUser = async () => {
       Username: uploadForm.Username,
       Password: uploadForm.Password,
       IsAdmin: uploadForm.IsAdmin,
+      Fullname: uploadForm.Fullname,
     })
   ) {
     ElMessage({
@@ -60,34 +75,42 @@ const newUser = async () => {
     emit("update");
   }
 };
-const updateUser = () => {
-  // let list = [];
-  // Object.keys(uploadForm).forEach((key) => {
-  //   if (uploadForm[key] != editComparor.value[key]) {
-  //     list.push({
-  //       op: "replace",
-  //       path: `/${key}`,
-  //       value: uploadForm[key],
-  //     });
-  //   }
-  // });
-  // Resource.updateResource(uploadForm.Id, list)
-  //   .then((res) => {
-  //     ElMessage({
-  //       message: "上传成功",
-  //       type: "success",
-  //     });
-  //     visble.value = false;
-  //     emit("update");
-  //   })
-  //   .catch((err) => {
-  //     ElMessage.error("网络错误");
-  //   });
+const updateUser = async () => {
+  let list = [];
+  if (uploadForm.resetPw)
+    list = [{ op: "replace", path: `/Password`, value: uploadForm.Password }];
+  else
+    Object.keys(uploadForm).forEach((key) => {
+      if (
+        uploadForm[key] != editComparor.value[key] &&
+        key != "resetPw" &&
+        key != "Password"
+      ) {
+        list.push({
+          op: "replace",
+          path: `/${key}`,
+          value: uploadForm[key],
+        });
+      }
+    });
+  if (await User.updateUser(uploadForm.Username, list)) {
+    ElMessage({
+      message: "上传成功",
+      type: "success",
+    });
+    visble.value = false;
+    emit("update");
+  }
 };
 const handleUpload = (obj) => {
   clearUserUploadForm();
   if (obj) {
-    editComparor.value = obj;
+    if (obj.resetPw) {
+      uploadForm.resetPw = true;
+    } else {
+      uploadForm.resetPw = false;
+      editComparor.value = obj;
+    }
     Object.keys(uploadForm).forEach((key) => {
       uploadForm[key] = obj[key];
     });

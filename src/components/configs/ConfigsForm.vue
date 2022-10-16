@@ -7,19 +7,22 @@
         :autosize="{ minRows: 2, maxRows: 8 }"
         clearable
       />
+    </el-form-item>
+    <el-form-item label="">
       <el-button
         @click="handleCommitConfig('introduction', configForm.introduction)"
-        style="margin-top: 10px"
         >提交</el-button
       >
     </el-form-item>
-    <el-form-item label="老师">
+    <el-form-item label="老师-姓名">
       <el-input
         v-model="configForm.teacher.name"
         type="text"
         placeholder="姓名"
         clearable
       />
+    </el-form-item>
+    <el-form-item label="老师-简介">
       <el-input
         v-model="configForm.teacher.introduction"
         type="textarea"
@@ -27,6 +30,8 @@
         placeholder="简介"
         clearable
       />
+    </el-form-item>
+    <el-form-item label="老师-正文">
       <el-input
         v-model="configForm.teacher.content"
         type="textarea"
@@ -34,9 +39,9 @@
         placeholder="正文"
         clearable
       />
-      <el-button
-        @click="handleCommitConfig('teacher', configForm.teacher)"
-        style="margin-top: 10px"
+    </el-form-item>
+    <el-form-item label="">
+      <el-button @click="handleCommitConfig('teacher', configForm.teacher)"
         >提交</el-button
       >
     </el-form-item>
@@ -49,10 +54,10 @@
         v-for="(item, index) in configForm.projects"
         :key="index"
       />
+    </el-form-item>
+    <el-form-item label="">
       <el-button @click="newItem('projects')">新增项目</el-button
-      ><el-button
-        @click="handleCommitConfig('projects', configForm.projects)"
-        style="margin-top: 10px"
+      ><el-button @click="handleCommitConfig('projects', configForm.projects)"
         >提交</el-button
       >
     </el-form-item>
@@ -65,38 +70,46 @@
         v-for="(item, index) in configForm.news"
         :key="index"
       />
+    </el-form-item>
+    <el-form-item label="">
       <el-button @click="newItem('news')">新增新闻</el-button
-      ><el-button
-        @click="handleCommitConfig('news', configForm.news)"
-        style="margin-top: 10px"
+      ><el-button @click="handleCommitConfig('news', configForm.news)"
         >提交</el-button
       >
     </el-form-item>
-    <el-form-item label="联系我们">
+    <el-form-item label="底栏-电话">
       <el-input
         v-model="configForm.contact.phone"
         type="text"
         placeholder="电话"
         clearable
       />
+    </el-form-item>
+    <el-form-item label="底栏-地址">
       <el-input
         v-model="configForm.contact.address"
         type="text"
         placeholder="地址"
         clearable
       />
+    </el-form-item>
+    <el-form-item label="底栏-邮编">
       <el-input
         v-model="configForm.contact.postcode"
         type="text"
         placeholder="邮编"
         clearable
       />
+    </el-form-item>
+    <el-form-item label="底栏-邮件">
       <el-input
         v-model="configForm.contact.email"
         type="text"
         placeholder="邮件"
         clearable
       />
+    </el-form-item>
+    <el-form-item label="底栏-期望">
       <el-input
         v-model="configForm.contact.hope"
         type="textarea"
@@ -104,6 +117,8 @@
         placeholder="期望"
         clearable
       />
+    </el-form-item>
+    <el-form-item label="底栏-成员">
       <el-input
         v-model="configForm.contact.people"
         type="textarea"
@@ -111,6 +126,8 @@
         placeholder="人员"
         clearable
       />
+    </el-form-item>
+    <el-form-item label="">
       <el-button
         @click="handleCommitConfig('contact', configForm.contact)"
         style="margin-top: 10px"

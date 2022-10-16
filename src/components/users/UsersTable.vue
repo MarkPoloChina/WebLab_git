@@ -2,20 +2,21 @@
   <el-table :data="tableData" style="width: 100%; min-height: 400px" stripe>
     <el-table-column prop="Id" label="Id" width="60" />
     <el-table-column prop="Username" label="用户名" width="180" />
-    <el-table-column prop="IsAdmin" label="是否管理员">
+    <el-table-column prop="Fullname" label="姓名" width="180" />
+    <el-table-column prop="IsAdmin" label="用户组">
       <template #default="scope">
         <el-tag type="success" v-if="scope.row.IsAdmin">管理员</el-tag>
         <el-tag type="info" v-else>普通用户</el-tag>
       </template>
     </el-table-column>
-    <el-table-column fixed="right" label="Operations">
+    <el-table-column fixed="right" label="Operations" width="180">
       <template #default="scope">
         <el-popconfirm
           title="Are you sure to delete this?"
-          @confirm="handleDeleteUser(scope.row.Id)"
+          @confirm="handleDeleteUser(scope.row.Username)"
         >
           <template #reference>
-            <el-button link type="primary" size="small">删除</el-button>
+            <el-button link type="danger" size="small">删除</el-button>
           </template>
         </el-popconfirm>
         <el-button
@@ -23,6 +24,13 @@
           type="primary"
           size="small"
           @click="emit('edit', scope.row)"
+          >修改</el-button
+        >
+        <el-button
+          link
+          type="primary"
+          size="small"
+          @click="emit('edit', { ...scope.row, resetPw: true })"
           >重置密码</el-button
         >
       </template>
@@ -40,7 +48,7 @@
 <script setup>
 import { ElMessage } from "element-plus";
 import { onMounted, reactive, ref, watch } from "vue";
-import { Resource, User } from "../../api/api";
+import { User } from "../../api/api";
 import config from "../../api/config";
 
 const emit = defineEmits(["edit"]);
@@ -77,20 +85,20 @@ const getUsers = async () => {
       tableData.push(user);
     });
 };
-const handleDeleteUser = (id) => {
-  // Resource.deleteResource(id)
-  //   .then((res) => {
-  //     if (res.status === 204)
-  //       ElMessage({
-  //         message: "删除成功",
-  //         type: "success",
-  //       });
-  //     currentResourcePage.value = 1;
-  //     getResources();
-  //   })
-  //   .catch((err) => {
-  //     ElMessage.error("网络错误");
-  //   });
+const handleDeleteUser = (username) => {
+  User.deleteUser(username)
+    .then((res) => {
+      if (res.status === 204)
+        ElMessage({
+          message: "删除成功",
+          type: "success",
+        });
+      currentResourcePage.value = 1;
+      getUsers();
+    })
+    .catch((err) => {
+      ElMessage.error("网络错误");
+    });
 };
 defineExpose({ getUsers });
 </script>

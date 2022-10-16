@@ -29,7 +29,7 @@
           <ConfigsForm></ConfigsForm>
         </el-tab-pane>
         <el-tab-pane label="Users" name="user" lazy>
-          <UsersTable ref="usersTable"></UsersTable>
+          <UsersTable ref="usersTable" @edit="handleUploadUser"></UsersTable>
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -42,7 +42,7 @@
     ref="resourcesForm"
     @update="resourcesTable.getResources()"
   ></ResourcesForm>
-  <UsersForm ref="usersForm"></UsersForm>
+  <UsersForm ref="usersForm" @update="usersTable.getUsers()"></UsersForm>
 </template>
 <script setup>
 import { useRoute, useRouter } from "vue-router";

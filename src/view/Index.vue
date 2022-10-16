@@ -63,18 +63,18 @@
     <div class="footer">
       <div class="container">
         <div class="col-md-4 agileinfo_footer_gridl">
-          <h3>加入我们</h3>
-          <p>实验室的联系方式：{{ contact.value.phone }}</p>
-          <p>实验室address: {{ contact.value.address }}</p>
-          <p>实验室Postcode: {{ contact.value.postcode }}</p>
-          <p>实验室Email:{{ contact.value.email }}</p>
+          <h3>联系我们</h3>
+          <p>Phone: {{ contact.value.phone }}</p>
+          <p>Address: {{ contact.value.address }}</p>
+          <p>Postcode: {{ contact.value.postcode }}</p>
+          <p>Email: {{ contact.value.email }}</p>
         </div>
         <div class="col-md-4 agileinfo_footer_gridl">
           <h3>期望</h3>
           <p>{{ contact.value.hope }}</p>
         </div>
         <div class="col-md-4 agileinfo_footer_gridr">
-          <h3>一些主要人员/负责人</h3>
+          <h3>成员</h3>
           {{ contact.value.people }}
         </div>
       </div>
@@ -215,6 +215,6 @@ const getConfig = () => {
   margin-top: 20px;
   width: 100%;
   text-align: center;
-  color: white;
+  color: rgba(255, 255, 255, 0.5);
 }
 </style>

@@ -26,7 +26,7 @@
           @confirm="handleDeleteResource(scope.row.Id)"
         >
           <template #reference>
-            <el-button link type="primary" size="small">删除</el-button>
+            <el-button link type="danger" size="small">删除</el-button>
           </template>
         </el-popconfirm>
         <el-button

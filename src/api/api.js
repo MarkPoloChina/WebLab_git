@@ -254,6 +254,37 @@ export class Schedule {
       return null;
     }
   };
+  static getSchedulesByFilter = async (page, limit, filterId, callback) => {
+    try {
+      let resp = await ax.get(`/todos`, {
+        params: { page: page, limit: limit, filter: filterId },
+        headers: {
+          Authorization: `Bearer ${store.state.token}`,
+        },
+      });
+      return resp.data;
+    } catch (err) {
+      if (callback) callback(err);
+      else ElMessage.error("网络错误");
+      return null;
+    }
+  };
+
+  static getSchedulesByFilterCount = async (filterId, callback) => {
+    try {
+      let resp = await ax.get(`/todos/count`, {
+        params: { filter: filterId },
+        headers: {
+          Authorization: `Bearer ${store.state.token}`,
+        },
+      });
+      return resp.data;
+    } catch {
+      if (callback) callback(err);
+      else ElMessage.error("网络错误");
+      return null;
+    }
+  };
 
   static getSelfSchedules = async (page, limit, callback) => {
     try {
@@ -364,9 +395,9 @@ export class User {
     }
   };
 
-  static deleteUser = async (id, callback) => {
+  static deleteUser = async (username, callback) => {
     try {
-      await ax.delete(`/users/${id}`, {
+      await ax.delete(`/users/${username}`, {
         headers: {
           Authorization: `Bearer ${store.state.token}`,
         },
@@ -379,13 +410,32 @@ export class User {
     }
   };
 
-  static updateUser = async (id, list, callback) => {
+  static updateUser = async (username, list, callback) => {
     try {
-      await ax.patch(`/users/${id}`, list, {
+      await ax.patch(`/users/${username}`, list, {
         headers: {
           Authorization: `Bearer ${store.state.token}`,
         },
       });
+      return true;
+    } catch (err) {
+      if (callback) callback(err);
+      else ElMessage.error("网络错误");
+      return false;
+    }
+  };
+
+  static changePassword = async (username, oldpw, newpw, callback) => {
+    try {
+      await ax.patch(
+        `/users/${username}/password`,
+        { OldPassword: oldpw, Password: newpw },
+        {
+          headers: {
+            Authorization: `Bearer ${store.state.token}`,
+          },
+        }
+      );
       return true;
     } catch (err) {
       if (callback) callback(err);
