@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="syspage">
-      <div class="title">Login</div>
+      <div class="title">LOGIN</div>
       <el-form :model="loginForm" label-width="50px" style="width: 100%">
         <el-form-item label="账号">
           <el-input
@@ -69,9 +69,6 @@ function login() {
   Token.login(loginForm.username, loginForm.password)
     .then((res) => {
       if (res.status === 201) {
-        //登录成功
-
-        // 判断登录权限，成功登录则则更改为success，用于publication中是否能够查看未上传论文
         store.commit("updateToken", res.data.Token);
         IHS.getToken()
           .then((res) => {
@@ -81,7 +78,6 @@ function login() {
                 message: "登录成功",
                 type: "success",
               });
-              //登录成功，存储完token后则跳转到upload页面
               router.push({
                 path: "/",
               });
@@ -140,6 +136,7 @@ function tohome() {
   font-size: 50px;
   font-weight: bolder;
   margin: 0 0 70px 0;
+  color: #24629c;
 }
 .btns {
   display: flex;

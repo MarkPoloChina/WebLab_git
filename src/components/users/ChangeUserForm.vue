@@ -1,5 +1,5 @@
 <template>
-  <el-dialog v-model="visble" title="Uploader Form" width="70%">
+  <el-dialog v-model="visble" title="User" width="70%">
     <div class="logout-btn">
       <el-button @click="logout" type="warning">注销</el-button>
     </div>
@@ -19,6 +19,7 @@
               v-model="uploadForm.OldPassword"
               type="password"
               clearable
+              show-password
             />
           </el-form-item>
           <el-form-item label="新密码">
@@ -26,6 +27,15 @@
               v-model="uploadForm.NewPassword"
               type="password"
               clearable
+              show-password
+            />
+          </el-form-item>
+          <el-form-item label="确认密码">
+            <el-input
+              v-model="uploadForm.ComfirmPassword"
+              type="password"
+              clearable
+              show-password
             />
           </el-form-item>
           <el-form-item label="">
@@ -33,10 +43,11 @@
               @click="
                 handlePatchPassword(
                   uploadForm.OldPassword,
-                  uploadForm.NewPassword
+                  uploadForm.NewPassword,
+                  uploadForm.ComfirmPassword
                 )
               "
-              >更新</el-button
+              >修改密码</el-button
             >
           </el-form-item>
         </el-form>
@@ -60,6 +71,7 @@ const uploadForm = reactive({
   Fullname: "",
   OldPassword: "",
   NewPassword: "",
+  ComfirmPassword: "",
 });
 const handleUser = () => {
   if (store.state.userObj) {
@@ -67,6 +79,8 @@ const handleUser = () => {
     uploadForm.Username = store.state.userObj.Username;
     uploadForm.Fullname = store.state.userObj.Fullname;
   }
+  uploadForm.NewPassword = "";
+  uploadForm.OldPassword = "";
   visble.value = true;
 };
 const logout = () => {
@@ -92,12 +106,16 @@ const handlePatch = async () => {
     router.push("/login");
   }
 };
-const handlePatchPassword = async (oldpw, newpw) => {
+const handlePatchPassword = async (oldpw, newpw, cmpw) => {
+  if (newpw != cmpw) {
+    ElMessage.error("确认密码不符");
+    return;
+  }
   if (
     await User.changePassword(uploadForm.Username, oldpw, newpw, (err) => {
-      if (err.response.status == 400) {
+      if (err.response.status == 403) {
         ElMessage.error("原密码错误");
-      }
+      } else ElMessage.error("网络错误");
     })
   ) {
     ElMessage({

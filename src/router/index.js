@@ -30,7 +30,7 @@ const routes = [
       },
       {
         path: "admin",
-        name: "Upload",
+        name: "Admin",
         component: Upload,
       },
       {

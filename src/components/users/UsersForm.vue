@@ -13,7 +13,12 @@
         <el-input v-model="uploadForm.Fullname" type="text" clearable />
       </el-form-item>
       <el-form-item label="密码" v-if="uploadForm.resetPw || !uploadForm.Id">
-        <el-input v-model="uploadForm.Password" type="password" clearable />
+        <el-input
+          v-model="uploadForm.Password"
+          type="password"
+          clearable
+          show-password
+        />
       </el-form-item>
       <el-form-item
         label="管理员权限"

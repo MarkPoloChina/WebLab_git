@@ -241,17 +241,19 @@ const handleDelete = async (id) => {
   }
 };
 const getUsersWithoutLimit = async () => {
-  let data = await User.getAllUsers(1, 10000, (err) => {
-    if (err.response.status === 401) {
-      ElMessage.error("请重新登录");
-      store.commit("clearToken");
-      router.push("/login");
-    } else ElMessage.error("网络错误");
-  });
-  if (data)
-    data.forEach((user) => {
-      users.push(user);
+  if (store.state.userObj && store.state.userObj.IsAdmin) {
+    let data = await User.getAllUsers(1, 10000, (err) => {
+      if (err.response.status === 401) {
+        ElMessage.error("请重新登录");
+        store.commit("clearToken");
+        router.push("/login");
+      } else ElMessage.error("网络错误");
     });
+    if (data)
+      data.forEach((user) => {
+        users.push(user);
+      });
+  }
 };
 </script>
 <style scoped>

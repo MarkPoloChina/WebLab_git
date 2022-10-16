@@ -54,6 +54,7 @@
         v-for="(item, index) in configForm.projects"
         :key="index"
       />
+      <span v-if="configForm.projects.length==0">暂无</span>
     </el-form-item>
     <el-form-item label="">
       <el-button @click="newItem('projects')">新增项目</el-button
@@ -70,6 +71,7 @@
         v-for="(item, index) in configForm.news"
         :key="index"
       />
+      <span v-if="configForm.projects.length==0">暂无</span>
     </el-form-item>
     <el-form-item label="">
       <el-button @click="newItem('news')">新增新闻</el-button

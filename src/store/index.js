@@ -3,7 +3,9 @@ import { createStore } from "vuex";
 const parseToken = (token) => {
   let userinfo = JSON.parse(
     decodeURIComponent(
-      escape(window.atob(token.split(".")[1].replace(/-/g, "+").replace(/_/g, "/")))
+      escape(
+        window.atob(token.split(".")[1].replace(/-/g, "+").replace(/_/g, "/"))
+      )
     )
   );
   return userinfo;
@@ -14,7 +16,7 @@ export default createStore({
     token: null,
     tokenIHS: null,
     userObj: null,
-    isAdmin:false
+    isAdmin: false,
   },
   mutations: {
     updateToken(state, payload) {
