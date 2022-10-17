@@ -82,6 +82,9 @@
         © 2022 Lab of Vision and Machine Learning, College of Computer and Data
         Science, Fuzhou University.
       </div>
+      <div class="cpr">
+        © 2022 SOSD, Fuzhou University.
+      </div>
     </div>
     <ChangeUserForm ref="changeUserForm"></ChangeUserForm>
   </div>

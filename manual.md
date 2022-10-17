@@ -133,4 +133,4 @@ docker compose up -d
 
 © 2022 Lab of Vision and Machine Learning, College of Computer and Data Science, Fuzhou University.
 
-© SOSD
+© 2022 SOSD, Fuzhou University.
