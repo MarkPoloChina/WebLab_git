@@ -9,10 +9,10 @@
           :disabled="uploadForm.Id != null"
         />
       </el-form-item>
-      <el-form-item label="姓名" v-if="!uploadForm.resetPw || !uploadForm.Id">
+      <el-form-item label="姓名" v-if="!resetPw || !uploadForm.Id">
         <el-input v-model="uploadForm.Fullname" type="text" clearable />
       </el-form-item>
-      <el-form-item label="密码" v-if="uploadForm.resetPw || !uploadForm.Id">
+      <el-form-item label="密码" v-if="resetPw || !uploadForm.Id">
         <el-input
           v-model="uploadForm.Password"
           type="password"
@@ -20,10 +20,7 @@
           show-password
         />
       </el-form-item>
-      <el-form-item
-        label="管理员权限"
-        v-if="!uploadForm.resetPw || !uploadForm.Id"
-      >
+      <el-form-item label="管理员权限" v-if="!resetPw || !uploadForm.Id">
         <el-switch v-model="uploadForm.IsAdmin" />
       </el-form-item>
     </el-form>
@@ -49,9 +46,8 @@ const uploadForm = reactive({
   Fullname: "",
   Password: "",
   IsAdmin: false,
-  resetPw: false,
 });
-
+const resetPw = ref(false);
 const upload = () => {
   if (!uploadForm.Id) newUser();
   else updateUser();
@@ -82,15 +78,11 @@ const newUser = async () => {
 };
 const updateUser = async () => {
   let list = [];
-  if (uploadForm.resetPw)
+  if (resetPw.value)
     list = [{ op: "replace", path: `/Password`, value: uploadForm.Password }];
   else
     Object.keys(uploadForm).forEach((key) => {
-      if (
-        uploadForm[key] != editComparor.value[key] &&
-        key != "resetPw" &&
-        key != "Password"
-      ) {
+      if (uploadForm[key] != editComparor.value[key] && key != "Password") {
         list.push({
           op: "replace",
           path: `/${key}`,
@@ -111,9 +103,9 @@ const handleUpload = (obj) => {
   clearUserUploadForm();
   if (obj) {
     if (obj.resetPw) {
-      uploadForm.resetPw = true;
+      resetPw.value = true;
     } else {
-      uploadForm.resetPw = false;
+      resetPw.value = false;
       editComparor.value = obj;
     }
     Object.keys(uploadForm).forEach((key) => {

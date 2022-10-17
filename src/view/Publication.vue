@@ -39,7 +39,15 @@
                 </div>
               </div>
               <div class="words-bottom">
-                <span>[<el-link :href="item.Link">LINK/PDF</el-link>]</span>
+                <span v-if="item.Link != ''"
+                  >[<el-link :href="item.Link">LINK</el-link>]</span
+                >
+                <span v-if="item.Pdf != ''"
+                  >[<el-link :href="item.Pdf">PDF</el-link>]</span
+                >
+                <span v-if="item.Code != ''"
+                  >[<el-link :href="item.Code">Code</el-link>]</span
+                >
               </div>
             </div>
           </div>
@@ -75,7 +83,15 @@
                 </div>
               </div>
               <div class="words-bottom">
-                <span>[<el-link :href="item.Link">LINK/PDF</el-link>]</span>
+                <span v-if="item.Link != ''"
+                  >[<el-link :href="item.Link">LINK</el-link>]</span
+                >
+                <span v-if="item.Pdf != ''"
+                  >[<el-link :href="item.Pdf">PDF</el-link>]</span
+                >
+                <span v-if="item.Code != ''"
+                  >[<el-link :href="item.Code">Code</el-link>]</span
+                >
               </div>
             </div>
           </div>
@@ -98,7 +114,7 @@ import { useRouter } from "vue-router";
 
 const store = useStore();
 const ready = ref(false);
-const router = useRouter()
+const router = useRouter();
 
 const tableData = reactive([]);
 const tableDataPrivate = reactive([]);

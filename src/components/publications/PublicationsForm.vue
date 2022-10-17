@@ -10,6 +10,9 @@
       <el-form-item label="链接">
         <el-input v-model="uploadForm.Link" type="text" clearable />
       </el-form-item>
+      <el-form-item label="Code">
+        <el-input v-model="uploadForm.Code" type="text" clearable />
+      </el-form-item>
       <el-form-item label="录用信息">
         <el-input v-model="uploadForm.Abstract" type="text" clearable />
       </el-form-item>
@@ -92,6 +95,8 @@ const uploadForm = reactive({
   Title: "",
   Authors: "",
   Link: "",
+  Code: "",
+  Pdf: "",
   Abstract: "",
   State: 1,
   Thumbnail: "",
@@ -111,6 +116,8 @@ const clearUploadForm = () => {
   uploadForm.Title = "";
   uploadForm.Authors = "";
   uploadForm.Link = "";
+  uploadForm.Code = "";
+  uploadForm.Pdf = "";
   uploadForm.Abstract = "";
   uploadForm.State = 1;
   uploadForm.Thumbnail = "";
@@ -143,7 +150,7 @@ const uploadPdf = (file) => {
             message: "上传PDF成功",
             type: "success",
           });
-          uploadForm.Link = res.data.Url;
+          uploadForm.Pdf = res.data.Url;
         }
       })
       .catch((err) => {
@@ -156,7 +163,7 @@ const clearImage = () => {
   progressImage.value = 0;
 };
 const clearPdf = () => {
-  ihs.pdf = "";
+  uploadForm.Pdf = "";
   progressPdf.value = 0;
 };
 const handleUpload = (obj) => {
@@ -176,6 +183,8 @@ const newPublication = async () => {
     Authors: uploadForm.Authors,
     Thumbnail: uploadForm.Thumbnail,
     Link: uploadForm.Link,
+    Pdf: uploadForm.Pdf,
+    Code: uploadForm.Pdf,
     State: uploadForm.State,
   };
   if (await Publications.newPublication(data)) {

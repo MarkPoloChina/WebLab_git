@@ -11,6 +11,20 @@
           >
         </template>
       </el-table-column>
+      <el-table-column prop="Code" label="Code">
+        <template #default="scope">
+          <el-link :href="scope.row.Code" v-if="scope.row.Code != ''"
+            >Code</el-link
+          >
+        </template>
+      </el-table-column>
+      <el-table-column prop="Pdf" label="PDF">
+        <template #default="scope">
+          <el-link :href="scope.row.Pdf" v-if="scope.row.Pdf != ''"
+            >PDF</el-link
+          >
+        </template>
+      </el-table-column>
       <el-table-column prop="Authors" label="Author"> </el-table-column>
       <el-table-column prop="State" label="是否公开">
         <template #default="scope">
