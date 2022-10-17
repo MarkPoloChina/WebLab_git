@@ -69,19 +69,24 @@
               <el-tag type="info" v-else>未完成</el-tag>
             </template>
           </el-table-column>
-          <el-table-column
-            fixed="right"
-            label="Operations"
-            width="180"
-            v-if="!(store.state.userObj && store.state.userObj.IsAdmin)"
-          >
+          <el-table-column fixed="right" label="Operations" width="180">
             <template #default="scope">
               <el-popconfirm
                 title="Are you sure to delete this?"
                 @confirm="handleDelete(scope.row.Id)"
               >
                 <template #reference>
-                  <el-button link type="danger" size="small">删除</el-button>
+                  <el-button
+                    link
+                    type="danger"
+                    size="small"
+                    :disabled="
+                      store.state.userObj &&
+                      store.state.userObj.IsAdmin &&
+                      scope.row.UserId != store.state.userObj.Id
+                    "
+                    >删除</el-button
+                  >
                 </template>
               </el-popconfirm>
               <el-button
@@ -89,6 +94,11 @@
                 type="primary"
                 size="small"
                 @click="handleEdit(scope.row)"
+                :disabled="
+                  store.state.userObj &&
+                  store.state.userObj.IsAdmin &&
+                  scope.row.UserId != store.state.userObj.Id
+                "
                 >修改</el-button
               >
               <el-popconfirm
@@ -100,6 +110,11 @@
                     link
                     :type="scope.row.Finished ? 'info' : 'success'"
                     size="small"
+                    :disabled="
+                      store.state.userObj &&
+                      store.state.userObj.IsAdmin &&
+                      scope.row.UserId != store.state.userObj.Id
+                    "
                     >{{
                       scope.row.Finished ? "标记未完成" : "标记完成"
                     }}</el-button
