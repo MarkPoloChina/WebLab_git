@@ -62,7 +62,7 @@ npm run build
 
 在配置文件中，需要添加下述`location`。
 
-```json
+```
 server
 {
     listen 80;
