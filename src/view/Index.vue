@@ -78,13 +78,14 @@
           {{ contact.value.people }}
         </div>
       </div>
+      <div class="visit-cnt">
+        网站累计访问量/Hits <span>{{ hits }}</span>
+      </div>
       <div class="cpr">
         © 2022 Lab of Vision and Machine Learning, College of Computer and Data
         Science, Fuzhou University.
       </div>
-      <div class="cpr">
-        © 2022 SOSD, Fuzhou University.
-      </div>
+      <div class="cpr">© 2022 SOSD, Fuzhou University.</div>
     </div>
     <ChangeUserForm ref="changeUserForm"></ChangeUserForm>
   </div>
@@ -179,9 +180,14 @@ onBeforeMount(() => {
 onMounted(() => {
   getConfig();
 });
+const hits = ref(0);
 const getConfig = () => {
   Config.getConfig("contact").then((resp) => {
     contact.value = JSON.parse(resp.data.Value);
+  });
+  Config.getConfig("hits").then((resp) => {
+    hits.value = parseInt(resp.data.Value);
+    Config.setConfig("hits", (hits.value + 1).toString());
   });
 };
 </script>
@@ -213,6 +219,17 @@ const getConfig = () => {
 }
 .main {
   min-height: calc(100vh - 225px);
+}
+.visit-cnt {
+  margin-top: 20px;
+  width: 100%;
+  text-align: center;
+  color: white;
+  opacity: 0.8;
+}
+.visit-cnt span {
+  font-weight: bold;
+  font-size: large;
 }
 .cpr {
   margin-top: 20px;
