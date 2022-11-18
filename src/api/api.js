@@ -14,14 +14,14 @@ const axi = axios.create({ baseURL: config.base_ihs_url });
 
 export class Token {
   static login = (username, password) => {
-    return ax.postForm("/tokens", { Username: username, Password: password });
+    return ax.post("/tokens", { Username: username, Password: password });
   };
 }
 
 export class Publications {
   static newPublication = async (form, callback) => {
     try {
-      await ax.postForm("/papers", form, {
+      await ax.post("/papers", form, {
         headers: {
           Authorization: `Bearer ${store.state.token}`,
         },
@@ -211,7 +211,7 @@ export class Resource {
 export class Schedule {
   static newSchedule = async (form, callback) => {
     try {
-      await ax.postForm("/todos", form, {
+      await ax.post("/todos", form, {
         headers: {
           Authorization: `Bearer ${store.state.token}`,
         },
@@ -351,7 +351,7 @@ export class Schedule {
 export class User {
   static newUser = async (form, callback) => {
     try {
-      await ax.postForm("/users", form, {
+      await ax.post("/users", form, {
         headers: {
           Authorization: `Bearer ${store.state.token}`,
         },

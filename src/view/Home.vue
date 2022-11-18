@@ -17,11 +17,7 @@
   <div class="become-agile">
     <div class="container">
       <div class="col-md-6 become-agile-left">
-        <img
-          src="../assets/img/sign.jpg"
-          alt=""
-          class="img-responsive"
-        />
+        <img src="../assets/img/sign.jpg" alt="" class="img-responsive" />
       </div>
       <div class="col-md-6 become-agile-right">
         <h3>实验室简介</h3>
@@ -39,17 +35,12 @@
         <div class="bectxt">
           {{ configData.teacher.introduction }}
         </div>
-        <div style="font-size: 15px; color: #777777">
+        <div style="font-size: 16px; color: #777777; margin-top: 20px">
           {{ configData.teacher.content }}
         </div>
       </div>
       <div class="col-md-6 become-agile-left">
-        <img
-          style="height: 350px"
-          src="../assets/img/girl.jpeg"
-          alt=""
-          class="img-responsive"
-        />
+        <img src="../assets/img/teacher.jpg" alt="" class="img-responsive" />
       </div>
       <div class="clearfix"></div>
     </div>
@@ -58,20 +49,17 @@
   <div class="agile">
     <div class="container">
       <div class="agile_right">
-        <div
-          class="col-md-4 list-left text-center">
+        <div class="col-md-4 list-left text-center">
           <span class="glyphicon" aria-hidden="true">1</span>
           <h4>Graph neural networks</h4>
           <p></p>
         </div>
-        <div
-          class="col-md-4 list-left text-center">
+        <div class="col-md-4 list-left text-center">
           <span class="glyphicon" aria-hidden="true">2</span>
           <h4>Active learning & Multi-view learning</h4>
           <p></p>
         </div>
-        <div
-          class="col-md-4 list-left text-center">
+        <div class="col-md-4 list-left text-center">
           <span class="glyphicon" aria-hidden="true">3</span>
           <h4>Computer vision</h4>
           <p></p>

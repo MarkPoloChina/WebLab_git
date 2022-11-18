@@ -39,13 +39,13 @@
                 </div>
               </div>
               <div class="words-bottom">
-                <span v-if="item.Link != ''"
+                <span v-if="item.Link && item.Link != ''"
                   >[<el-link :href="item.Link">LINK</el-link>]</span
                 >
-                <span v-if="item.Pdf != ''"
+                <span v-if="item.Pdf && item.Pdf != ''"
                   >[<el-link :href="item.Pdf">PDF</el-link>]</span
                 >
-                <span v-if="item.Code != ''"
+                <span v-if="item.Code && item.Code != ''"
                   >[<el-link :href="item.Code">Code</el-link>]</span
                 >
               </div>

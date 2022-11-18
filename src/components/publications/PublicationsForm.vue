@@ -184,7 +184,7 @@ const newPublication = async () => {
     Thumbnail: uploadForm.Thumbnail,
     Link: uploadForm.Link,
     Pdf: uploadForm.Pdf,
-    Code: uploadForm.Pdf,
+    Code: uploadForm.Code,
     State: uploadForm.State,
   };
   if (await Publications.newPublication(data)) {
