@@ -109,15 +109,6 @@ const handleSwitch = () => {
   font-size: 35px;
   font-weight: bold;
 }
-:deep(.el-tabs__item.is-active) {
-  color: #24629c;
-}
-:deep(.el-tabs__item:hover) {
-  color: #24629c;
-}
-:deep(.el-tabs__active-bar) {
-  background-color: #24629c;
-}
 .btn-top {
   width: 100%;
   display: flex;

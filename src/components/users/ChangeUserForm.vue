@@ -1,5 +1,5 @@
 <template>
-  <el-dialog v-model="visble" title="User" width="70%">
+  <el-dialog v-model="visble" :title="`User ${uploadForm.Username}`" width="70%">
     <div class="logout-btn">
       <el-button @click="logout" type="warning">注销</el-button>
     </div>

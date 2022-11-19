@@ -99,15 +99,6 @@ const getResourcePage = () => {
   color: #24629c;
   cursor: pointer;
 }
-:deep(.el-tabs__item.is-active) {
-  color: #24629c;
-}
-:deep(.el-tabs__item:hover) {
-  color: #24629c;
-}
-:deep(.el-tabs__active-bar) {
-  background-color: #24629c;
-}
 :deep(.el-table__header-wrapper) {
   font-size: 19px;
 }

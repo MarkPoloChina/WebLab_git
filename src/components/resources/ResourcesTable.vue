@@ -1,9 +1,5 @@
 <template>
-  <el-table
-    :data="tableResourceData"
-    style="width: 100%; min-height: 400px"
-    stripe
-  >
+  <el-table :data="tableResourceData" style="width: 100%; min-height: 400px">
     <el-table-column prop="Id" label="Id" width="60" />
     <el-table-column prop="Title" label="Title" width="180" />
     <el-table-column prop="Description" label="Description" />
@@ -14,7 +10,7 @@
         >
       </template>
     </el-table-column>
-    <el-table-column prop="CreatedAt" label="上传日期">
+    <el-table-column prop="CreatedAt" label="Upload Date">
       <template #default="scope">
         {{ new Date(scope.row.CreatedAt).toLocaleString() }}
       </template>

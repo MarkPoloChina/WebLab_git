@@ -1,5 +1,5 @@
 <template>
-  <el-table :data="tableData" style="width: 100%; min-height: 400px" stripe>
+  <el-table :data="tableData" style="width: 100%; min-height: 400px">
     <el-table-column prop="Id" label="Id" width="60" />
     <el-table-column prop="Username" label="用户名" width="180" />
     <el-table-column prop="Fullname" label="姓名" width="180" />

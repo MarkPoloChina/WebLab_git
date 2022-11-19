@@ -24,7 +24,7 @@
               >
                 <div style="display: flex">
                   <li
-                    style="margin: 0 30px 0 0"
+                    class="menu-li"
                     :class="menu.class"
                     v-for="(menu, index) in menus"
                     :key="index"
@@ -36,7 +36,7 @@
                 </div>
                 <div style="display: flex">
                   <li
-                    style="margin: 0 30px 0 0"
+                    class="menu-li"
                     :class="menu.class"
                     v-for="(menu, index) in menusRight"
                     :key="index"
@@ -143,7 +143,7 @@ const menusRight = computed(() => {
   let defaults = [];
   if (token)
     defaults.push({
-      name: `${store.state.userObj.Username}`,
+      name: `User: ${store.state.userObj.Username}`,
       url: "/user",
     });
   else
@@ -194,14 +194,13 @@ const getConfig = () => {
 <style scoped>
 @import url("../assets/css/Home.css");
 .banner {
-  max-height: v-bind("route.name!='Home'?'210px':'724px'");
+  max-height: v-bind("route.name!='Home'?'212px':'724px'");
   overflow: hidden;
   background: url(../assets/img/fzuback.jpg) no-repeat;
   background-size: cover;
   position: relative;
   transition: max-height 0.5s ease;
 }
-
 .flexslider {
   margin: 40px 0 30px 0;
 }
@@ -216,6 +215,9 @@ const getConfig = () => {
   -webkit-text-stroke: 1px black 0.8;
   color: white;
   cursor: default;
+}
+.menu-li {
+  margin: 0 30px 0 0;
 }
 .main {
   min-height: calc(100vh - 225px);

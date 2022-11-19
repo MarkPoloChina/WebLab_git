@@ -20,33 +20,34 @@
       <el-tab-pane label="Public" name="public">
         <div class="pub-list" v-infinite-scroll="load" v-if="ready">
           <div v-for="(item, index) in tableData" :key="index" class="tablediv">
-            <img style="width: 30%; object-fit: cover" :src="item.Thumbnail" />
+            <img :src="item.Thumbnail" class="card-thumb" />
             <div class="card-words">
               <div>
-                <div style="color: rgba(0, 0, 0, 0.54)">
-                  {{ item.date }}
+                <div class="words-date">
+                  {{ new Date(item.PublishedAt).toLocaleDateString() }}
                 </div>
-                <div
-                  style="font-size: 25px; margin-top: 10px; font-weight: bold"
-                >
+                <div class="words-title">
                   {{ item.Title }}
                 </div>
-                <div>
+                <div class="words-author">
                   {{ item.Authors }}
                 </div>
-                <div style="margin-top: 5px">
+                <div class="words-abs">
                   {{ item.Abstract }}
                 </div>
               </div>
               <div class="words-bottom">
                 <span v-if="item.Link && item.Link != ''"
-                  >[<el-link :href="item.Link">LINK</el-link>]</span
+                  >[<el-link class="words-lnk" :href="item.Link">LINK</el-link
+                  >]</span
                 >
                 <span v-if="item.Pdf && item.Pdf != ''"
-                  >[<el-link :href="item.Pdf">PDF</el-link>]</span
+                  >[<el-link class="words-lnk" :href="item.Pdf">PDF</el-link
+                  >]</span
                 >
                 <span v-if="item.Code && item.Code != ''"
-                  >[<el-link :href="item.Code">Code</el-link>]</span
+                  >[<el-link class="words-lnk" :href="item.Code">Code</el-link
+                  >]</span
                 >
               </div>
             </div>
@@ -64,32 +65,30 @@
             :key="index"
             class="tablediv"
           >
-            <img style="width: 30%; object-fit: cover" :src="item.Thumbnail" />
+            <img class="card-thumb" :src="item.Thumbnail" />
             <div class="card-words">
               <div>
-                <div style="color: rgba(0, 0, 0, 0.54)">
-                  {{ item.date }}
+                <div class="words-date">
+                  {{ new Date(item.PublishedAt).toLocaleDateString() }}
                 </div>
-                <div
-                  style="font-size: 25px; margin-top: 10px; font-weight: bold"
-                >
+                <div class="words-title">
                   {{ item.Title }}
                 </div>
-                <div>
+                <div class="words-author">
                   {{ item.Authors }}
                 </div>
-                <div style="margin-top: 5px">
+                <div class="words-abs">
                   {{ item.Abstract }}
                 </div>
               </div>
               <div class="words-bottom">
-                <span v-if="item.Link != ''"
+                <span class="words-lnk" v-if="item.Link && item.Link != ''"
                   >[<el-link :href="item.Link">LINK</el-link>]</span
                 >
-                <span v-if="item.Pdf != ''"
+                <span class="words-lnk" v-if="item.Pdf && item.Pdf != ''"
                   >[<el-link :href="item.Pdf">PDF</el-link>]</span
                 >
-                <span v-if="item.Code != ''"
+                <span class="words-lnk" v-if="item.Code && item.Code != ''"
                   >[<el-link :href="item.Code">Code</el-link>]</span
                 >
               </div>
@@ -106,7 +105,7 @@
 
 <script setup>
 import { useStore } from "vuex";
-import { getCurrentInstance, onMounted, reactive, ref } from "vue";
+import { onMounted, reactive, ref } from "vue";
 import { Publications } from "../api/api";
 import config from "../api/config";
 import { ElMessage } from "element-plus";
@@ -182,6 +181,12 @@ const getPrivateData = async (page = 1) => {
   border: 1px solid rgba(0, 0, 0, 0.09);
   padding: 10px 15px 10px 15px;
 }
+.card-thumb {
+  flex-basis: 30%;
+  flex-grow: 0;
+  flex-shrink: 0;
+  object-fit: cover;
+}
 .pub-list {
   margin-left: auto;
   margin-right: auto;
@@ -191,18 +196,29 @@ const getPrivateData = async (page = 1) => {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin: 10px 0 0 30px;
+  margin: 0 0 0 30px;
+}
+.words-lnk {
+  vertical-align: baseline;
+}
+.words-abs {
+  font-style: oblique;
+}
+.words-title {
+  font-size: 25px;
+  font-weight: bold;
+  margin: 5px 0 5px 0;
+}
+.words-author {
+  font-size: 20px;
+}
+.words-date {
+  color: rgba(0, 0, 0, 0.54);
+}
+.words-bottom {
+  margin-top: 10px;
 }
 .words-bottom span {
   margin-right: 10px;
-}
-:deep(.el-tabs__item.is-active) {
-  color: #24629c;
-}
-:deep(.el-tabs__item:hover) {
-  color: #24629c;
-}
-:deep(.el-tabs__active-bar) {
-  background-color: #24629c;
 }
 </style>

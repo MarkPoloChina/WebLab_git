@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-table :data="tableData" style="width: 100%; min-height: 400px" stripe>
+    <el-table :data="tableData" style="width: 100%; min-height: 400px">
       <el-table-column prop="Id" label="Id" width="60" />
       <el-table-column prop="Title" label="Title" width="180" />
       <el-table-column prop="Abstract" label="Info" />
@@ -26,7 +26,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="Authors" label="Author"> </el-table-column>
-      <el-table-column prop="State" label="是否公开">
+      <el-table-column prop="State" label="State">
         <template #default="scope">
           <el-tag type="success" v-if="scope.row.State">公开</el-tag>
           <el-tag type="info" v-else>不公开</el-tag>
