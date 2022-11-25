@@ -20,7 +20,9 @@
       <el-tab-pane label="Public" name="public">
         <div class="pub-list" v-infinite-scroll="load" v-if="ready">
           <div v-for="(item, index) in tableData" :key="index" class="tablediv">
-            <img :src="item.Thumbnail" class="card-thumb" />
+            <div class="card-thumb">
+              <img :src="item.Thumbnail" />
+            </div>
             <div class="card-words">
               <div>
                 <div class="words-date">
@@ -65,7 +67,9 @@
             :key="index"
             class="tablediv"
           >
-            <img class="card-thumb" :src="item.Thumbnail" />
+            <div class="card-thumb">
+              <img :src="item.Thumbnail" />
+            </div>
             <div class="card-words">
               <div>
                 <div class="words-date">
@@ -180,11 +184,17 @@ const getPrivateData = async (page = 1) => {
   border-radius: 3px;
   border: 1px solid rgba(0, 0, 0, 0.09);
   padding: 10px 15px 10px 15px;
+  position: relative;
 }
 .card-thumb {
+  position: relative;
   flex-basis: 30%;
   flex-grow: 0;
   flex-shrink: 0;
+}
+.card-thumb img {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
 }
 .pub-list {
@@ -193,6 +203,7 @@ const getPrivateData = async (page = 1) => {
   width: 100%;
 }
 .card-words {
+  flex-basis: 70%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

@@ -168,6 +168,17 @@ export class Config {
       }
     );
   }
+
+  static getAndIncHits = async () => {
+    try {
+      let resp = await ax.get("/hits");
+      return resp.data;
+    } catch (err) {
+      if (callback) callback(err);
+      else ElMessage.error("网络错误");
+      return null;
+    }
+  };
 }
 
 export class Resource {

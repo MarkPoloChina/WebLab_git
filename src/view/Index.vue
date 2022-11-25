@@ -181,14 +181,12 @@ onMounted(() => {
   getConfig();
 });
 const hits = ref(0);
-const getConfig = () => {
+const getConfig = async () => {
   Config.getConfig("contact").then((resp) => {
     contact.value = JSON.parse(resp.data.Value);
   });
-  Config.getConfig("hits").then((resp) => {
-    hits.value = parseInt(resp.data.Value);
-    Config.setConfig("hits", (hits.value + 1).toString());
-  });
+  const data = await Config.getAndIncHits();
+  if (data != null) hits.value = data.Hits;
 };
 </script>
 <style scoped>
