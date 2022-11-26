@@ -167,7 +167,7 @@ const getConfig = () => {
 }
 .news {
   display: flex;
-  height: 70px;
+  min-height: 70px;
   align-items: center;
   justify-content: space-between;
   padding: 10px 20px 10px 20px;
