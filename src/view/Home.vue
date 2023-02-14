@@ -6,9 +6,9 @@
       <div style="padding-top: 25px">
         <div v-for="(item, index) in configData.news" :key="index" class="news">
           <div class="hnews">
-            <span>{{ item.content }}</span>
+            <span>{{ getNews(item).content }}</span>
           </div>
-          <div class="hdate">{{ item.date }}</div>
+          <div class="hdate">{{ getNews(item).date }}</div>
         </div>
       </div>
     </div>
@@ -154,6 +154,14 @@ const getConfig = () => {
       configData[item] = JSON.parse(resp.data.Value);
     });
   });
+};
+const getNews = (item) => {
+  if (/\[[\d\/]+\]([\s\S]*)/.test(item.content)) {
+    return {
+      content: /\[[\d\/]+\]([\s\S]*)/.exec(item.content)[1],
+      date: /\[([\d\/]+)\][\s\S]*/.exec(item.content)[1],
+    };
+  } else return item;
 };
 </script>
 <style scoped>
