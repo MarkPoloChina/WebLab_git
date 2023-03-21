@@ -78,6 +78,7 @@ const getResourcePage = () => {
   color: #24629c;
   font-size: 35px;
   font-weight: bold;
+  text-align: center;
 }
 .pub-list {
   margin-left: auto;

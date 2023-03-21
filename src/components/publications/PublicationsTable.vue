@@ -1,9 +1,9 @@
 <template>
   <div>
     <el-table :data="tableData" style="width: 100%; min-height: 400px">
-      <el-table-column prop="Id" label="Id" width="60" />
+      <el-table-column prop="Id" label="ID" width="60" />
       <el-table-column prop="Title" label="Title" width="180" />
-      <el-table-column prop="Abstract" label="Info" />
+      <el-table-column prop="PublishedIn" label="PublishedAt" />
       <el-table-column prop="Link" label="Link">
         <template #default="scope">
           <el-link :href="scope.row.Link" v-if="scope.row.Link != ''"
@@ -25,14 +25,20 @@
           >
         </template>
       </el-table-column>
-      <el-table-column prop="Authors" label="Author"> </el-table-column>
-      <el-table-column prop="State" label="State">
+      <el-table-column prop="Authors" label="Authors"> </el-table-column>
+      <el-table-column prop="PublishedAt" label="PublishedAt">
         <template #default="scope">
-          <el-tag type="success" v-if="scope.row.State">公开</el-tag>
-          <el-tag type="info" v-else>不公开</el-tag>
+          {{ new Date(scope.row.PublishedAt).toLocaleDateString() }}
         </template>
       </el-table-column>
-      <el-table-column fixed="right" label="Operations">
+      <el-table-column prop="State" label="State">
+        <template #default="scope">
+          <el-tag type="success" v-if="scope.row.State == 1">公开</el-tag>
+          <el-tag type="info" v-if="scope.row.State == 0">不公开</el-tag>
+          <el-tag type="primary" v-if="scope.row.State == 3">精选</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column fixed="right" label="Operations" width="110">
         <template #default="scope">
           <el-popconfirm
             title="Are you sure to delete this?"

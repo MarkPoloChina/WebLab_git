@@ -47,6 +47,43 @@ export class Publications {
     }
   };
 
+  static getPublicPublicationsYear = async (callback) => {
+    try {
+      let resp = await ax.get("/papers/public/years");
+      return resp.data;
+    } catch (err) {
+      if (callback) callback(err);
+      else ElMessage.error("网络错误");
+      return null;
+    }
+  };
+
+  static getPublicPublicationsByYear = async (page, limit, year, callback) => {
+    try {
+      let resp = await ax.get("/papers/public", {
+        params: { page: page, limit: limit, year_filter: year },
+      });
+      return resp.data;
+    } catch (err) {
+      if (callback) callback(err);
+      else ElMessage.error("网络错误");
+      return null;
+    }
+  };
+
+  static getSelectedPublications = async (page, limit, callback) => {
+    try {
+      let resp = await ax.get("/papers/highlight", {
+        params: { page: page, limit: limit },
+      });
+      return resp.data;
+    } catch (err) {
+      if (callback) callback(err);
+      else ElMessage.error("网络错误");
+      return null;
+    }
+  };
+
   static getPrivatePublications = async (page, limit, callback) => {
     try {
       let resp = await ax.get("/papers/private", {

@@ -14,10 +14,21 @@
         <el-input v-model="uploadForm.Code" type="text" clearable />
       </el-form-item>
       <el-form-item label="录用信息">
-        <el-input v-model="uploadForm.Abstract" type="text" clearable />
+        <el-input v-model="uploadForm.PublishedIn" type="text" clearable />
       </el-form-item>
-      <el-form-item label="是否公开">
-        <el-switch v-model="isPublic" />
+      <el-form-item label="录用时间">
+        <el-date-picker
+          v-model="uploadForm.PublishedAt"
+          type="date"
+          placeholder="Pick a day"
+        />
+      </el-form-item>
+      <el-form-item label="状态">
+        <el-radio-group v-model="uploadForm.State">
+          <el-radio :label="1">公开</el-radio>
+          <el-radio :label="0">私有</el-radio>
+          <el-radio :label="3">精选</el-radio>
+        </el-radio-group>
       </el-form-item>
       <el-form-item class="progress">
         <el-progress
@@ -82,13 +93,6 @@ const emit = defineEmits(["update"]);
 const editComparor = reactive({ value: null });
 const progressImage = ref(0);
 const progressPdf = ref(0);
-const isPublic = computed({
-  get: () => uploadForm.State == 1,
-  set: (val) => {
-    if (val) uploadForm.State = 1;
-    else uploadForm.State = 0;
-  },
-});
 const visble = ref(false);
 const uploadForm = reactive({
   Id: null,
@@ -100,6 +104,8 @@ const uploadForm = reactive({
   Abstract: "",
   State: 1,
   Thumbnail: "",
+  PublishedAt: "",
+  PublishedIn: "",
 });
 const ihs = reactive({
   imageFile: [],
@@ -121,6 +127,8 @@ const clearUploadForm = () => {
   uploadForm.Abstract = "";
   uploadForm.State = 1;
   uploadForm.Thumbnail = "";
+  uploadForm.PublishedAt = "";
+  uploadForm.PublishedIn = "";
   ihs.imageFile.length = 0;
   ihs.pdfFile.length = 0;
 };
@@ -186,6 +194,8 @@ const newPublication = async () => {
     Pdf: uploadForm.Pdf,
     Code: uploadForm.Code,
     State: uploadForm.State,
+    PublishedAt: uploadForm.PublishedAt,
+    PublishedIn: uploadForm.PublishedIn,
   };
   if (await Publications.newPublication(data)) {
     ElMessage({
