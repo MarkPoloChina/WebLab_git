@@ -3,7 +3,7 @@
     <el-table :data="tableData" style="width: 100%; min-height: 400px">
       <el-table-column prop="Id" label="ID" width="60" />
       <el-table-column prop="Title" label="Title" width="180" />
-      <el-table-column prop="PublishedIn" label="PublishedAt" />
+      <el-table-column prop="PublishedIn" label="PublishedIn" />
       <el-table-column prop="Link" label="Link">
         <template #default="scope">
           <el-link :href="scope.row.Link" v-if="scope.row.Link != ''"
