@@ -4,6 +4,7 @@
       <el-table-column prop="Id" label="ID" width="60" />
       <el-table-column prop="Title" label="Title" width="180" />
       <el-table-column prop="PublishedIn" label="PublishedIn" />
+      <el-table-column prop="Authors" label="Authors"> </el-table-column>
       <el-table-column prop="Link" label="Link">
         <template #default="scope">
           <el-link :href="scope.row.Link" v-if="scope.row.Link != ''"
@@ -25,7 +26,6 @@
           >
         </template>
       </el-table-column>
-      <el-table-column prop="Authors" label="Authors"> </el-table-column>
       <el-table-column prop="PublishedAt" label="PublishedAt">
         <template #default="scope">
           {{ new Date(scope.row.PublishedAt).toLocaleDateString() }}
